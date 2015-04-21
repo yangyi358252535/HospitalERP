@@ -1,0 +1,4709 @@
+
+  package com.CompetenceAndUserManage.action;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IClaszService;
+import com.CompetenceAndUserManage.Service.ISpecialtyService;
+import com.CompetenceAndUserManage.bean.TClass;
+import com.CompetenceAndUserManage.bean.TSpecialty;
+import com.CompetenceAndUserManage.tool.PagingUtil;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/clazz")
+@Results({
+		@Result(name = "toList", location = "/clazz/list.jsp"),
+		@Result(name = "toMain", location = "/clazz/main.jsp"),
+		@Result(name = "toModify", location = "/clazz/modify.jsp"),
+		@Result(name = "toAdd", location = "/clazz/add.jsp"),
+		@Result(name = "LoadId", type = "json", params = { "includeProperties",
+				"currentPageIds" }),
+		@Result(name = "LoadAllId", type = "json", params = {
+				"includeProperties", "currentAllIds" }) })
+public class ClazzMainAction extends PagingUtil<TClass> {
+	private static final long serialVersionUID = 4952957180855829594L;
+	private TClass clasz;
+	private IClaszService claszService;
+	private ISpecialtyService specialtyService;
+	private List<TSpecialty>  specialtyList;
+	private String currentPageIds = null;
+	private String currentAllIds = null;
+	private String flagString = null;
+	private String information = null;
+	{
+		setClass(TClass.class, "clasz");
+		setPageableAmount(10);
+		setOrderSql(" order by clasz.id desc");
+	}
+	@Action(value = "toMain")
+	public String toMain() {
+		clearSession();
+		return "toMain";
+	}
+	@Action(value = "toList")
+	public String toList() {
+		searchClasz();
+		return "toList";
+	}
+	@Action(value = "toAdd")
+	public String toAdd() {
+//		specialtyList=specialtyService.getAllSpecialty();
+		return "toAdd";
+	}
+	@Action(value = "toModify")
+	public String toModify() {
+		clasz=claszService.getClasz(clasz.getId());
+		return "toModify";
+	}
+	private void searchClasz() {
+		if("1".equals(flagString)){
+			setSQL(" and clasz.name like ? ");
+			queryParameters.add("%"+information + "%");
+		}
+		search();
+	}
+	@Action(value = "uploadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json") })
+	public String uploadIdCollection() {
+		updateIdCollectionInSession();
+		return SUCCESS;
+	}
+	@Action(value = "loadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadIdCollection() {
+		this.currentPageIds = getIdCollectionFromSession();
+		return "LoadId";
+	}
+	@Action(value = "loadAllIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadAllIdCollection() {
+		this.currentAllIds = getAllIdsFromSession();
+		return "LoadAllId";
+	}
+	@Override
+	public String getCurrentPageIds() {
+		return currentPageIds;
+	}
+	@Override
+	public void setCurrentPageIds(String currentPageIds) {
+		this.currentPageIds = currentPageIds;
+	}
+	@Override
+	public String getCurrentAllIds() {
+		return this.currentAllIds;
+	}
+	@Override
+	public void setCurrentAllIds(String currentAllIds) {
+		this.currentAllIds = currentAllIds;
+	}
+	@Action(value = "toNext")
+	public String toNext() {
+		next();
+		searchClasz();
+		return "toList";
+	}
+
+	@Action(value = "toPrevious")
+	public String toPrevious() {
+		previous();
+		searchClasz();
+		return "toList";
+	}
+
+	@Action(value = "toLast")
+	public String toLast() {
+		last();
+		searchClasz();
+		return "toList";
+	}
+
+	@Action(value = "toFirst")
+	public String toFirst() {
+		first();
+		searchClasz();
+		return "toList";
+	}
+
+	@Action(value = "toPage")
+	public String toPage() {
+		page();
+		searchClasz();
+		return "toList";
+	}
+
+	@Action(value = "toReload")
+	public String toReload() {
+		searchClasz();
+		return "toList";
+	}
+	public String getFlagString() {
+		return flagString;
+	}
+	public void setFlagString(String flagString) {
+		this.flagString = flagString;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
+	}
+	@JSON(serialize = false)
+	public TClass getClasz() {
+		return clasz;
+	}
+	public void setClasz(TClass clasz) {
+		this.clasz = clasz;
+	}
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+	@Resource
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+	@JSON(serialize = false)
+	public ISpecialtyService getSpecialtyService() {
+		return specialtyService;
+	}
+	@Resource
+	public void setSpecialtyService(ISpecialtyService specialtyService) {
+		this.specialtyService = specialtyService;
+	}
+	@JSON(serialize = false)
+	public List<TSpecialty> getSpecialtyList() {
+		return specialtyList;
+	}
+	public void setSpecialtyList(List<TSpecialty> specialtyList) {
+		this.specialtyList = specialtyList;
+	}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IClaszService;
+import com.CompetenceAndUserManage.bean.TClass;
+import com.CompetenceAndUserManage.tool.BaseProcessAction;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/clazz")
+public class ClazzProcessAction extends BaseProcessAction {
+	private static final long serialVersionUID = -2150253813306906815L;
+	private TClass clasz;
+	private IClaszService claszService;
+	private String allIds=null;
+	private String message="0";
+	@Action(value = "addProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String add() {
+		Long maxid=claszService.getMaxId();
+		if(maxid!=null){
+			clasz.setId(maxid+1);
+		}else{
+			clasz.setId(1);
+		}
+		claszService.addClasz(clasz);
+		return SUCCESS;
+	}
+	@Action(value = "modifyProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})
+	public String modify() {
+		claszService.modifyClasz(clasz);
+		return SUCCESS;
+	}
+	@Action(value = "clearSessionForSearch", params = { "contentType",
+	"text/html;charset=UTF-8" }, results = { @Result(name = "clearSesssion", type = "json") })
+	public String clearSessionForSearch(){
+		clearSession();
+		return "clearSesssion";
+	}
+	@Override
+	public String getAllIds() {
+		return allIds;
+	}
+	@Override
+	public void setAllIds(String allIds) {
+		this.allIds=allIds;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@JSON(serialize = false)
+	public TClass getClasz() {
+		return clasz;
+	}
+	public void setClasz(TClass clasz) {
+		this.clasz = clasz;
+	}
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+	@Resource
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import javax.annotation.Resource;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IDepartmentService;
+import com.CompetenceAndUserManage.bean.TDepartment;
+import com.CompetenceAndUserManage.tool.PagingUtil;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/department")
+@Results({
+		@Result(name = "toList", location = "/department/list.jsp"),
+		@Result(name = "toMain", location = "/department/main.jsp"),
+		@Result(name = "toModify", location = "/department/modify.jsp"),
+		@Result(name = "toAdd", location = "/department/add.jsp"),
+		@Result(name = "LoadId", type = "json", params = { "includeProperties",
+				"currentPageIds" }),
+		@Result(name = "LoadAllId", type = "json", params = {
+				"includeProperties", "currentAllIds" }) })
+public class DepartmentMainAction extends PagingUtil<TDepartment> {
+	private static final long serialVersionUID = 464725447047479363L;
+	private TDepartment department;
+	private IDepartmentService departmentService;
+	private String currentPageIds = null;
+	private String currentAllIds = null;
+	private String flagString = null;
+	private String information = null;
+	{
+		setClass(TDepartment.class, "department");
+		setPageableAmount(10);
+		setOrderSql(" order by department.id desc");
+	}
+	@Action(value = "toMain")
+	public String toMain() {
+		clearSession();
+		return "toMain";
+	}
+	@Action(value = "toList")
+	public String toList() {
+		searchDepartment();
+		return "toList";
+	}
+	@Action(value = "toAdd")
+	public String toAdd() {
+		return "toAdd";
+	}
+	@Action(value = "toModify")
+	public String toModify() {
+		return "toModify";
+	}
+	private void searchDepartment() {
+		if("1".equals(flagString)){
+			setSQL(" and clasz.name like ? ");
+			queryParameters.add("%"+information + "%");
+		}
+		search();
+	}
+	@Action(value = "uploadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json") })
+	public String uploadIdCollection() {
+		updateIdCollectionInSession();
+		return SUCCESS;
+	}
+	@Action(value = "loadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadIdCollection() {
+		this.currentPageIds = getIdCollectionFromSession();
+		return "LoadId";
+	}
+	@Action(value = "loadAllIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadAllIdCollection() {
+		this.currentAllIds = getAllIdsFromSession();
+		return "LoadAllId";
+	}
+	@Override
+	public String getCurrentPageIds() {
+		return currentPageIds;
+	}
+	@Override
+	public void setCurrentPageIds(String currentPageIds) {
+		this.currentPageIds = currentPageIds;
+	}
+	@Override
+	public String getCurrentAllIds() {
+		return this.currentAllIds;
+	}
+	@Override
+	public void setCurrentAllIds(String currentAllIds) {
+		this.currentAllIds = currentAllIds;
+	}
+	@Action(value = "toNext")
+	public String toNext() {
+		next();
+		searchDepartment();
+		return "toList";
+	}
+
+	@Action(value = "toPrevious")
+	public String toPrevious() {
+		previous();
+		searchDepartment();
+		return "toList";
+	}
+
+	@Action(value = "toLast")
+	public String toLast() {
+		last();
+		searchDepartment();
+		return "toList";
+	}
+
+	@Action(value = "toFirst")
+	public String toFirst() {
+		first();
+		searchDepartment();
+		return "toList";
+	}
+
+	@Action(value = "toPage")
+	public String toPage() {
+		page();
+		searchDepartment();
+		return "toList";
+	}
+
+	@Action(value = "toReload")
+	public String toReload() {
+		searchDepartment();
+		return "toList";
+	}
+	public String getFlagString() {
+		return flagString;
+	}
+	public void setFlagString(String flagString) {
+		this.flagString = flagString;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
+	}
+	@JSON(serialize = false)
+	public TDepartment getDepartment() {
+		return department;
+	}
+	public void setDepartment(TDepartment department) {
+		this.department = department;
+	}
+	@JSON(serialize = false)
+	public IDepartmentService getDepartmentService() {
+		return departmentService;
+	}
+	@Resource
+	public void setDepartmentService(IDepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IDepartmentService;
+import com.CompetenceAndUserManage.bean.TDepartment;
+import com.CompetenceAndUserManage.tool.BaseProcessAction;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/department")
+public class DepartmentProcessAction extends BaseProcessAction {
+	private static final long serialVersionUID = 5503331808112422778L;
+	private TDepartment department;
+	private IDepartmentService departmentService;
+	private String allIds=null;
+	private String message="0";
+	@Action(value = "addProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String add() {
+		Long maxid=departmentService.getMaxId();
+		if(maxid!=null){
+			department.setId(maxid+1);
+		}else{
+			department.setId(1);
+		}
+		departmentService.addDepartment(department);
+		return SUCCESS;
+	}
+	@Action(value = "modifyProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})
+	public String modify() {
+		departmentService.modifyDepartment(department);
+		return SUCCESS;
+	}
+	@Action(value = "clearSessionForSearch", params = { "contentType",
+	"text/html;charset=UTF-8" }, results = { @Result(name = "clearSesssion", type = "json") })
+	public String clearSessionForSearch(){
+		clearSession();
+		return "clearSesssion";
+	}
+	@Override
+	public String getAllIds() {
+		return allIds;
+	}
+	@Override
+	public void setAllIds(String allIds) {
+		this.allIds=allIds;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@JSON(serialize = false)
+	public TDepartment getDepartment() {
+		return department;
+	}
+	public void setDepartment(TDepartment department) {
+		this.department = department;
+	}
+	@JSON(serialize = false)
+	public IDepartmentService getDepartmentService() {
+		return departmentService;
+	}
+	@Resource
+	public void setDepartmentService(IDepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.ISpecialtyService;
+import com.CompetenceAndUserManage.bean.TSpecialty;
+import com.CompetenceAndUserManage.tool.PagingUtil;
+
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/specialty")
+@Results({
+		@Result(name = "toList", location = "/specialty/list.jsp"),
+		@Result(name = "toMain", location = "/specialty/main.jsp"),
+		@Result(name = "toModify", location = "/specialty/modify.jsp"),
+		@Result(name = "toAdd", location = "/specialty/add.jsp"),
+		@Result(name = "LoadId", type = "json", params = { "includeProperties",
+				"currentPageIds" }),
+		@Result(name = "LoadAllId", type = "json", params = {
+				"includeProperties", "currentAllIds" }) })
+public class SpecialtyMainAction extends PagingUtil<TSpecialty> {
+	private static final long serialVersionUID = 533978026665638195L;
+	private TSpecialty specialty;
+	private ISpecialtyService specialtyService;
+	private String currentPageIds = null;
+	private String currentAllIds = null;
+	private String flagString = null;
+	private String information = null;
+	{
+		setClass(TSpecialty.class, "specialty");
+		setPageableAmount(10);
+		setOrderSql(" order by specialty.id desc");
+	}
+	@Action(value = "toMain")
+	public String toMain() {
+		clearSession();
+		return "toMain";
+	}
+	@Action(value = "toList")
+	public String toList() {
+		searchSpecialty();
+		return "toList";
+	}
+	@Action(value = "toAdd")
+	public String toAdd() {
+		return "toAdd";
+	}
+	@Action(value = "toModify")
+	public String toModify() {
+//		claszList=claszService.getAllTheClazz();
+//		teacher=teacherService.getTeacher(teacher.getId());
+//		claszList.add(teacher.getClass());
+//		oldClassId=teacher.getClass().getId();
+		return "toModify";
+	}
+	private void searchSpecialty() {
+		if("2".equals(flagString)){
+			setSQL(" and teacher.name like ? ");
+			queryParameters.add("%"+information + "%");
+		}else if("1".equals(flagString)){
+			setSQL(" and teacher.num like ? ");
+			queryParameters.add("%"+information + "%");
+		}
+		search();
+	}
+	@Action(value = "uploadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json") })
+	public String uploadIdCollection() {
+		updateIdCollectionInSession();
+		return SUCCESS;
+	}
+	@Action(value = "loadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadIdCollection() {
+		this.currentPageIds = getIdCollectionFromSession();
+		return "LoadId";
+	}
+	@Action(value = "loadAllIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadAllIdCollection() {
+		this.currentAllIds = getAllIdsFromSession();
+		return "LoadAllId";
+	}
+	@Override
+	public String getCurrentPageIds() {
+		return currentPageIds;
+	}
+	@Override
+	public void setCurrentPageIds(String currentPageIds) {
+		this.currentPageIds = currentPageIds;
+	}
+	@Override
+	public String getCurrentAllIds() {
+		return this.currentAllIds;
+	}
+	@Override
+	public void setCurrentAllIds(String currentAllIds) {
+		this.currentAllIds = currentAllIds;
+	}
+	@Action(value = "toNext")
+	public String toNext() {
+		next();
+		searchSpecialty();
+		return "toList";
+	}
+
+	@Action(value = "toPrevious")
+	public String toPrevious() {
+		previous();
+		searchSpecialty();
+		return "toList";
+	}
+
+	@Action(value = "toLast")
+	public String toLast() {
+		last();
+		searchSpecialty();
+		return "toList";
+	}
+
+	@Action(value = "toFirst")
+	public String toFirst() {
+		first();
+		searchSpecialty();
+		return "toList";
+	}
+
+	@Action(value = "toPage")
+	public String toPage() {
+		page();
+		searchSpecialty();
+		return "toList";
+	}
+
+	@Action(value = "toReload")
+	public String toReload() {
+		searchSpecialty();
+		return "toList";
+	}
+	public String getFlagString() {
+		return flagString;
+	}
+	public void setFlagString(String flagString) {
+		this.flagString = flagString;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
+	}
+	@JSON(serialize = false)
+	public TSpecialty getSpecialty() {
+		return specialty;
+	}
+	public void setSpecialty(TSpecialty specialty) {
+		this.specialty = specialty;
+	}
+	@JSON(serialize = false)
+	public ISpecialtyService getSpecialtyService() {
+		return specialtyService;
+	}
+	@Resource
+	public void setSpecialtyService(ISpecialtyService specialtyService) {
+		this.specialtyService = specialtyService;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.ISpecialtyService;
+import com.CompetenceAndUserManage.bean.TSpecialty;
+import com.CompetenceAndUserManage.tool.BaseProcessAction;
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/system/specialty")
+public class SpecialtyProcessAction extends BaseProcessAction {
+	private static final long serialVersionUID = 6352988498791890510L;
+	private TSpecialty specialty=new TSpecialty();
+	private ISpecialtyService specialtyService;
+	private String allIds=null;
+	private String message="0";
+	@Action(value = "addProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String add() {
+		Long maxid=specialtyService.getMaxId();
+		if(maxid!=null){
+			specialty.setId(maxid+1);
+		}else{
+			specialty.setId(1);
+		}
+		specialtyService.addSpecialty(specialty);
+		return SUCCESS;
+	}
+	@Action(value = "modifyProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})
+	public String modify() {
+		specialtyService.modifySpecialty(specialty);
+		return SUCCESS;
+	}
+	@Action(value = "clearSessionForSearch", params = { "contentType",
+	"text/html;charset=UTF-8" }, results = { @Result(name = "clearSesssion", type = "json") })
+	public String clearSessionForSearch(){
+		clearSession();
+		return "clearSesssion";
+	}
+	@Override
+	public String getAllIds() {
+		return allIds;
+	}
+	@Override
+	public void setAllIds(String allIds) {
+		this.allIds=allIds;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@JSON(serialize = false)
+	public TSpecialty getSpecialty() {
+		return specialty;
+	}
+	public void setSpecialty(TSpecialty specialty) {
+		this.specialty = specialty;
+	}
+	@JSON(serialize = false)
+	public ISpecialtyService getSpecialtyService() {
+		return specialtyService;
+	}
+	@Resource
+	public void setSpecialtyService(ISpecialtyService specialtyService) {
+		this.specialtyService = specialtyService;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IClaszService;
+import com.CompetenceAndUserManage.Service.IStudentService;
+import com.CompetenceAndUserManage.Service.IUserService;
+import com.CompetenceAndUserManage.bean.TClass;
+import com.CompetenceAndUserManage.bean.TStudent;
+import com.CompetenceAndUserManage.bean.TUser;
+import com.CompetenceAndUserManage.tool.PagingUtil;
+
+
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/student")
+@Results({
+		@Result(name = "toList", location = "/student/list.jsp"),
+		@Result(name = "toMain", location = "/student/main.jsp"),
+		@Result(name = "toModify", location = "/student/modify.jsp"),
+		@Result(name = "toAdd", location = "/student/add.jsp"),
+		@Result(name = "LoadId", type = "json", params = { "includeProperties",
+				"currentPageIds" }),
+		@Result(name = "LoadAllId", type = "json", params = {
+				"includeProperties", "currentAllIds" }) })
+public class StudentMainAction extends PagingUtil<TStudent> {
+	private static final long serialVersionUID = -5943595137712975879L;
+	private IStudentService studentService;
+	private IUserService userService;
+	private IClaszService claszService;
+	private TStudent student;
+	private List<TClass> claszList;
+	private List<TUser> counselorList;
+	private String currentPageIds = null;
+	private String currentAllIds = null;
+	private String flagString = null;
+	private String information = null;
+	private String condition_string;
+	{
+		setClass(TStudent.class, "student");
+		setPageableAmount(10);
+		setOrderSql(" order by student.id desc");
+	}
+
+	@Action(value = "toMain")
+	public String toMain() {
+		clearSession();
+		return "toMain";
+	}
+
+	@Action(value = "toList")
+	public String toList() {
+		searchStudent();
+		return "toList";
+	}
+
+	@Action(value = "toAdd")
+	public String toAdd() {
+//		counselorList=userService.getUserList(2);
+		return "toAdd";
+	}
+
+	@Action(value = "toModify")
+	public String toModify() {
+		student = studentService.getStudent(student.getId());
+//		counselorList=userService.getUserList(2);
+		return "toModify";
+	}
+
+	private void searchStudent() {
+//		TTeacher teacher = (TTeacher) getSession().get(
+//				SystemConstant.CURRENTUSER);
+		if ("2".equals(flagString)) {
+			setSQL(" and student.name like ? ");
+			queryParameters.add("%" + information + "%");
+		} else if ("1".equals(flagString)) {
+			setSQL(" and student.num like ? ");
+			queryParameters.add("%" + information + "%");
+		}
+//		setSQL(" and student.clasz.id =" + teacher.getSpecialty().g);
+		search();
+	}
+
+
+	@Action(value = "uploadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json") })
+	public String uploadIdCollection() {
+		updateIdCollectionInSession();
+		return SUCCESS;
+	}
+
+	@Action(value = "loadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadIdCollection() {
+		this.currentPageIds = getIdCollectionFromSession();
+		return "LoadId";
+	}
+
+	@Action(value = "loadAllIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadAllIdCollection() {
+		this.currentAllIds = getAllIdsFromSession();
+		return "LoadAllId";
+	}
+
+	@Override
+	public String getCurrentPageIds() {
+		return currentPageIds;
+	}
+
+	@Override
+	public void setCurrentPageIds(String currentPageIds) {
+		this.currentPageIds = currentPageIds;
+	}
+
+	@Override
+	public String getCurrentAllIds() {
+		return this.currentAllIds;
+	}
+
+	@Override
+	public void setCurrentAllIds(String currentAllIds) {
+		this.currentAllIds = currentAllIds;
+	}
+
+	@Action(value = "toNext")
+	public String toNext() {
+		next();
+		searchStudent();
+		return "toList";
+	}
+
+	@Action(value = "toPrevious")
+	public String toPrevious() {
+		previous();
+		searchStudent();
+		return "toList";
+	}
+
+	@Action(value = "toLast")
+	public String toLast() {
+		last();
+		searchStudent();
+		return "toList";
+	}
+
+	@Action(value = "toFirst")
+	public String toFirst() {
+		first();
+		searchStudent();
+		return "toList";
+	}
+
+	@Action(value = "toPage")
+	public String toPage() {
+		page();
+		searchStudent();
+		return "toList";
+	}
+
+	@Action(value = "toReload")
+	public String toReload() {
+		searchStudent();
+		return "toList";
+	}
+
+	public String getFlagString() {
+		return flagString;
+	}
+
+	public void setFlagString(String flagString) {
+		this.flagString = flagString;
+	}
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
+	}
+
+	@JSON(serialize = false)
+	public IStudentService getStudentService() {
+		return studentService;
+	}
+
+	@Resource
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
+	}
+
+	@JSON(serialize = false)
+	public TStudent getStudent() {
+		return student;
+	}
+
+	public void setStudent(TStudent student) {
+		this.student = student;
+	}
+
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+
+	@Resource
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+
+	@JSON(serialize = false)
+	public String getCondition_string() {
+		return condition_string;
+	}
+
+	public void setCondition_string(String condition_string) {
+		this.condition_string = condition_string;
+	}
+	@JSON(serialize = false)
+	public List<TClass> getClaszList() {
+		return claszList;
+	}
+
+	public void setClaszList(List<TClass> claszList) {
+		this.claszList = claszList;
+	}
+	@JSON(serialize = false)
+	public List<TUser> getCounselorList() {
+		return counselorList;
+	}
+
+	public void setCounselorList(List<TUser> counselorList) {
+		this.counselorList = counselorList;
+	}
+	@JSON(serialize = false)
+	public IUserService getUserService() {
+		return userService;
+	}
+	@Resource
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IClaszService;
+import com.CompetenceAndUserManage.Service.IStudentService;
+import com.CompetenceAndUserManage.Service.ITeacherService;
+import com.CompetenceAndUserManage.bean.TAuthAndSourceInfo;
+import com.CompetenceAndUserManage.bean.TStudent;
+import com.CompetenceAndUserManage.tool.BaseProcessAction;
+import com.CompetenceAndUserManage.tool.SystemConstant;
+import com.CompetenceAndUserManage.tool.SystemUtil;
+
+
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/student")
+public class StudentProcessAction extends BaseProcessAction {
+	private static final long serialVersionUID = -7518344973574116467L;
+	private String username;
+	private String password;
+	private String newPass;
+	private String oldPass;
+	private String passflag;
+	private IStudentService studentService;
+	private ITeacherService teacherService;
+	private IClaszService claszService;
+	private TStudent student = new TStudent();
+	private String allIds = null;
+	private String message = "0";
+	@Action(value = "toLogin", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json", params = {
+			"includeProperties", "message", "excludeNullProperties", "true",
+			"excludeProperties", "" }) })
+	public String login() {
+		Object currentUser = getCurrentUser();
+		if (currentUser != null) {
+			message = "";
+		} else {
+			TStudent student = studentService.login(username, password);
+			List<Map<String, List<TAuthAndSourceInfo>>> menuAndAuthInfoList = null;
+			Map<String, List<TAuthAndSourceInfo>> map_AuthAndSourceInfo = null;
+			if (student != null) {
+				setCurrentUser(student);
+				menuAndAuthInfoList = new ArrayList<Map<String, List<TAuthAndSourceInfo>>>();
+				List<TAuthAndSourceInfo> authAndSourceInfoList = null;
+				authAndSourceInfoList = teacherService.getAuthAndSourceInfo(3);
+				if (authAndSourceInfoList != null) {
+					map_AuthAndSourceInfo = new HashMap<String, List<TAuthAndSourceInfo>>();
+					map_AuthAndSourceInfo.put(authAndSourceInfoList.get(0)
+							.getMenuTitle_Name(), authAndSourceInfoList);
+					menuAndAuthInfoList.add(map_AuthAndSourceInfo);
+				}
+				getSession().put("currentUserAuth", "");
+//				getSession().put("currentClass", student.getClasz().getName());
+				getSession().put("currentUserCode", 2);
+				getSession().put("BO_MenuAndAuthInfoList", menuAndAuthInfoList);
+				message = "success";
+			} else {
+				message = "-1";
+			}
+		}
+		return SUCCESS;
+	}
+	@Action(value = "logout",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String logout(){
+		setCurrentUser(null);
+		getSession().put("BO_MenuAndAuthInfoList", null);
+		getSession().put("currentUserCode", null);
+		getSession().put("currentUserAuth", null);
+		return SUCCESS;
+	}
+	@Action(value = "checkOldPass",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"includeProperties", "passflag",
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String checkOldPass(){
+		TStudent udr=(TStudent)getCurrentUser();
+		if(!oldPass.equals(udr.getPassword())){
+			passflag="0";
+		}else{
+			passflag="1";
+		}
+		return SUCCESS;
+	}
+	@Action(value = "changePass",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String change() {
+		TStudent employee=(TStudent)getCurrentUser();
+		employee=studentService.getStudent(employee.getId());
+		employee.setPassword(newPass);
+		studentService.modifyStudent(employee);
+		setCurrentUser(employee);
+		return SUCCESS;
+	}
+	@Action(value = "addProcess", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json", params = {
+			"excludeNullProperties", "true", "excludeProperties", "" }) })
+	public String add() {
+		Long maxid = studentService.getMaxId();
+		String userno = null;
+		if (maxid != null) {
+			student.setId(maxid + 1);
+		} else {
+			student.setId(1);
+		}
+		userno = SystemUtil.getUserNo("ST");
+		student.setNum(userno);
+		student.setPassword(SystemConstant.PASSWORD);
+		return SUCCESS;
+	}
+
+
+	@Action(value = "modifyProcess", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json", params = {
+			"excludeNullProperties", "true", "excludeProperties", "" }) })
+	public String modify() {
+		TStudent tmp=studentService.getStudent(student.getId());
+		tmp.setName(student.getName());
+		tmp.setSex(student.getSex());
+		tmp.setTel(student.getTel());
+//		tmp.setClass1(claszService.getClasz(student.getClass1().getId()));
+		studentService.modifyStudent(tmp);
+		return SUCCESS;
+	}
+
+	@Action(value = "clearSessionForSearch", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "clearSesssion", type = "json") })
+	public String clearSessionForSearch() {
+		clearSession();
+		return "clearSesssion";
+	}
+
+	@Override
+	public String getAllIds() {
+		return allIds;
+	}
+
+	@Override
+	public void setAllIds(String allIds) {
+		this.allIds = allIds;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	@JSON(serialize = false)
+	public IStudentService getStudentService() {
+		return studentService;
+	}
+
+	@Resource
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
+	}
+
+	@JSON(serialize = false)
+	public TStudent getStudent() {
+		return student;
+	}
+
+	public void setStudent(TStudent student) {
+		this.student = student;
+	}
+
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+
+	@Resource
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+
+	@JSON(serialize = false)
+	public ITeacherService getTeacherService() {
+		return teacherService;
+	}
+
+	@Resource
+	public void setTeacherService(ITeacherService teacherService) {
+		this.teacherService = teacherService;
+	}
+
+	@JSON(serialize = false)
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@JSON(serialize = false)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	@JSON(serialize = false)
+	public String getNewPass() {
+		return newPass;
+	}
+	public void setNewPass(String newPass) {
+		this.newPass = newPass;
+	}
+	@JSON(serialize = false)
+	public String getOldPass() {
+		return oldPass;
+	}
+	public void setOldPass(String oldPass) {
+		this.oldPass = oldPass;
+	}
+	public String getPassflag() {
+		return passflag;
+	}
+	public void setPassflag(String passflag) {
+		this.passflag = passflag;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import com.CompetenceAndUserManage.Service.ITarService;
+import com.CompetenceAndUserManage.bean.TTar;
+import com.CompetenceAndUserManage.tool.PagingUtil;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/tar")
+@Results({
+		@Result(name = "toList", location = "/tar/list.jsp"),
+		@Result(name = "toMain", location = "/tar/main.jsp"),
+		@Result(name = "toModify", location = "/tar/modify.jsp"),
+		@Result(name = "toAdd", location = "/tar/add.jsp"),
+		@Result(name = "LoadId", type = "json", params = { "includeProperties",
+				"currentPageIds" }),
+		@Result(name = "LoadAllId", type = "json", params = {
+				"includeProperties", "currentAllIds" }) })
+public class TarMainAction extends PagingUtil<TTar> {
+	private static final long serialVersionUID = 7232514295454115913L;
+	private ITarService tarService;
+	private TTar tar;
+	private String currentPageIds = null;
+	private String currentAllIds = null;
+	private String flagString = null;
+	private String information = null;
+	{
+		setClass(TTar.class, "tar");
+		setPageableAmount(10);
+		setOrderSql(" order by tar.id desc");
+	}
+	@Action(value = "toMain")
+	public String toMain() {
+		clearSession();
+		return "toMain";
+	}
+	@Action(value = "toList")
+	public String toList() {
+		searchTar();
+		return "toList";
+	}
+	@Action(value = "toAdd")
+	public String toAdd() {
+		return "toAdd";
+	}
+	@Action(value = "toModify")
+	public String toModify() {
+		return "toModify";
+	}
+	private void searchTar() {
+		if("1".equals(flagString)){
+			setSQL(" and clasz.name like ? ");
+			queryParameters.add("%"+information + "%");
+		}
+		search();
+	}
+	@Action(value = "uploadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json") })
+	public String uploadIdCollection() {
+		updateIdCollectionInSession();
+		return SUCCESS;
+	}
+	@Action(value = "loadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadIdCollection() {
+		this.currentPageIds = getIdCollectionFromSession();
+		return "LoadId";
+	}
+	@Action(value = "loadAllIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadAllIdCollection() {
+		this.currentAllIds = getAllIdsFromSession();
+		return "LoadAllId";
+	}
+	@Override
+	public String getCurrentPageIds() {
+		return currentPageIds;
+	}
+	@Override
+	public void setCurrentPageIds(String currentPageIds) {
+		this.currentPageIds = currentPageIds;
+	}
+	@Override
+	public String getCurrentAllIds() {
+		return this.currentAllIds;
+	}
+	@Override
+	public void setCurrentAllIds(String currentAllIds) {
+		this.currentAllIds = currentAllIds;
+	}
+	@Action(value = "toNext")
+	public String toNext() {
+		next();
+		searchTar();
+		return "toList";
+	}
+
+	@Action(value = "toPrevious")
+	public String toPrevious() {
+		previous();
+		searchTar();
+		return "toList";
+	}
+
+	@Action(value = "toLast")
+	public String toLast() {
+		last();
+		searchTar();
+		return "toList";
+	}
+
+	@Action(value = "toFirst")
+	public String toFirst() {
+		first();
+		searchTar();
+		return "toList";
+	}
+
+	@Action(value = "toPage")
+	public String toPage() {
+		page();
+		searchTar();
+		return "toList";
+	}
+
+	@Action(value = "toReload")
+	public String toReload() {
+		searchTar();
+		return "toList";
+	}
+	public String getFlagString() {
+		return flagString;
+	}
+	public void setFlagString(String flagString) {
+		this.flagString = flagString;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
+	}
+	@JSON(serialize = false)
+	public ITarService getTarService() {
+		return tarService;
+	}
+	@Resource
+	public void setTarService(ITarService tarService) {
+		this.tarService = tarService;
+	}
+	@JSON(serialize = false)
+	public TTar getTar() {
+		return tar;
+	}
+	public void setTar(TTar tar) {
+		this.tar = tar;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import com.CompetenceAndUserManage.Service.ITarService;
+import com.CompetenceAndUserManage.bean.TTar;
+import com.CompetenceAndUserManage.tool.BaseProcessAction;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/tar")
+public class TarProcessAction extends BaseProcessAction {
+	private static final long serialVersionUID = -6895802425241170852L;
+	private ITarService tarService;
+	private TTar tar=new TTar();
+	private String allIds=null;
+	private String message="0";
+	@Action(value = "addProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String add() {
+		Long maxid=tarService.getMaxId();
+		if(maxid!=null){
+			tar.setId(maxid+1);
+		}else{
+			tar.setId(1);
+		}
+		tarService.addTar(tar);
+		return SUCCESS;
+	}
+	@Action(value = "modifyProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})
+	public String modify() {
+		tarService.modifyTar(tar);
+		return SUCCESS;
+	}
+	@Action(value = "clearSessionForSearch", params = { "contentType",
+	"text/html;charset=UTF-8" }, results = { @Result(name = "clearSesssion", type = "json") })
+	public String clearSessionForSearch(){
+		clearSession();
+		return "clearSesssion";
+	}
+	@Override
+	public String getAllIds() {
+		return allIds;
+	}
+	@Override
+	public void setAllIds(String allIds) {
+		this.allIds=allIds;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@JSON(serialize = false)
+	public ITarService getTarService() {
+		return tarService;
+	}
+	@Resource
+	public void setTarService(ITarService tarService) {
+		this.tarService = tarService;
+	}
+	@JSON(serialize = false)
+	public TTar getTar() {
+		return tar;
+	}
+	public void setTar(TTar tar) {
+		this.tar = tar;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IClaszService;
+import com.CompetenceAndUserManage.Service.ISpecialtyService;
+import com.CompetenceAndUserManage.Service.ITeacherService;
+import com.CompetenceAndUserManage.bean.TClass;
+import com.CompetenceAndUserManage.bean.TSpecialty;
+import com.CompetenceAndUserManage.bean.TTeacher;
+import com.CompetenceAndUserManage.tool.PagingUtil;
+
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/teacher")
+@Results({
+		@Result(name = "toList", location = "/teacher/list.jsp"),
+		@Result(name = "toMain", location = "/teacher/main.jsp"),
+		@Result(name = "toModify", location = "/teacher/modify.jsp"),
+		@Result(name = "toAdd", location = "/teacher/add.jsp"),
+		@Result(name = "LoadId", type = "json", params = { "includeProperties",
+				"currentPageIds" }),
+		@Result(name = "LoadAllId", type = "json", params = {
+				"includeProperties", "currentAllIds" }) })
+public class TeacherMainAction extends PagingUtil<TTeacher> {
+	private static final long serialVersionUID = -3556370317329222933L;
+	private TTeacher teacher;
+	private ITeacherService teacherService;
+	private IClaszService claszService;
+	private List<TSpecialty> specialtyList;
+	private ISpecialtyService specialtyService;
+	private List<TClass> claszList;
+	private long oldClassId;
+	private String currentPageIds = null;
+	private String currentAllIds = null;
+	private String flagString = null;
+	private String information = null;
+	{
+		setClass(TTeacher.class, "teacher");
+		setPageableAmount(10);
+		setOrderSql(" order by teacher.id desc");
+	}
+	@Action(value = "toMain")
+	public String toMain() {
+		clearSession();
+		return "toMain";
+	}
+	@Action(value = "toList")
+	public String toList() {
+		searchTeacher();
+		return "toList";
+	}
+	@Action(value = "toAdd")
+	public String toAdd() {
+		claszList=new ArrayList<TClass>();
+//		specialtyList=specialtyService.getAllSpecialty();
+		return "toAdd";
+	}
+	@Action(value = "toModify")
+	public String toModify() {
+		return "toModify";
+	}
+	private void searchTeacher() {
+		if("2".equals(flagString)){
+			setSQL(" and teacher.name like ? ");
+			queryParameters.add("%"+information + "%");
+		}else if("1".equals(flagString)){
+			setSQL(" and teacher.num like ? ");
+			queryParameters.add("%"+information + "%");
+		}
+		search();
+	}
+	@Action(value = "uploadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" }, results = { @Result(name = "success", type = "json") })
+	public String uploadIdCollection() {
+		updateIdCollectionInSession();
+		return SUCCESS;
+	}
+	@Action(value = "loadIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadIdCollection() {
+		this.currentPageIds = getIdCollectionFromSession();
+		return "LoadId";
+	}
+	@Action(value = "loadAllIdCollection", params = { "contentType",
+			"text/html;charset=UTF-8" })
+	public String loadAllIdCollection() {
+		this.currentAllIds = getAllIdsFromSession();
+		return "LoadAllId";
+	}
+	@Override
+	public String getCurrentPageIds() {
+		return currentPageIds;
+	}
+	@Override
+	public void setCurrentPageIds(String currentPageIds) {
+		this.currentPageIds = currentPageIds;
+	}
+	@Override
+	public String getCurrentAllIds() {
+		return this.currentAllIds;
+	}
+	@Override
+	public void setCurrentAllIds(String currentAllIds) {
+		this.currentAllIds = currentAllIds;
+	}
+	@Action(value = "toNext")
+	public String toNext() {
+		next();
+		searchTeacher();
+		return "toList";
+	}
+
+	@Action(value = "toPrevious")
+	public String toPrevious() {
+		previous();
+		searchTeacher();
+		return "toList";
+	}
+
+	@Action(value = "toLast")
+	public String toLast() {
+		last();
+		searchTeacher();
+		return "toList";
+	}
+
+	@Action(value = "toFirst")
+	public String toFirst() {
+		first();
+		searchTeacher();
+		return "toList";
+	}
+
+	@Action(value = "toPage")
+	public String toPage() {
+		page();
+		searchTeacher();
+		return "toList";
+	}
+
+	@Action(value = "toReload")
+	public String toReload() {
+		searchTeacher();
+		return "toList";
+	}
+	public String getFlagString() {
+		return flagString;
+	}
+	public void setFlagString(String flagString) {
+		this.flagString = flagString;
+	}
+	public String getInformation() {
+		return information;
+	}
+	public void setInformation(String information) {
+		this.information = information;
+	}
+	@JSON(serialize = false)
+	public TTeacher getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(TTeacher teacher) {
+		this.teacher = teacher;
+	}
+	@JSON(serialize = false)
+	public ITeacherService getTeacherService() {
+		return teacherService;
+	}
+	@Resource
+	public void setTeacherService(ITeacherService teacherService) {
+		this.teacherService = teacherService;
+	}
+	
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+	@JSON(serialize = false)
+	public long getOldClassId() {
+		return oldClassId;
+	}
+	public void setOldClassId(long oldClassId) {
+		this.oldClassId = oldClassId;
+	}
+	@JSON(serialize = false)
+	public List<TClass> getClaszList() {
+		return claszList;
+	}
+	public void setClaszList(List<TClass> claszList) {
+		this.claszList = claszList;
+	}
+	@JSON(serialize = false)
+	public List<TSpecialty> getSpecialtyList() {
+		return specialtyList;
+	}
+	public void setSpecialtyList(List<TSpecialty> specialtyList) {
+		this.specialtyList = specialtyList;
+	}
+	@JSON(serialize = false)
+	public ISpecialtyService getSpecialtyService() {
+		return specialtyService;
+	}
+	@Resource
+	public void setSpecialtyService(ISpecialtyService specialtyService) {
+		this.specialtyService = specialtyService;
+	}
+	
+}
+
+
+
+
+
+
+package com.CompetenceAndUserManage.action;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.CompetenceAndUserManage.Service.IClaszService;
+import com.CompetenceAndUserManage.Service.ITeacherService;
+import com.CompetenceAndUserManage.bean.TAuthAndSourceInfo;
+import com.CompetenceAndUserManage.bean.TTeacher;
+import com.CompetenceAndUserManage.tool.BaseProcessAction;
+import com.CompetenceAndUserManage.tool.SystemConstant;
+import com.CompetenceAndUserManage.tool.SystemUtil;
+
+@Controller
+@Scope("prototype")
+@ParentPackage("main")
+@Namespace("/teacher")
+public class TeacherProcessAction extends BaseProcessAction {
+	private static final long serialVersionUID = 8511180782629497377L;
+	private TTeacher teacher;
+	private String username;
+	private String password;
+	private String newPass;
+	private String oldPass;
+	private String passflag;
+	private ITeacherService teacherService;
+	private IClaszService claszService;
+	private long oldClassId;
+	private String allIds=null;
+	private String message="0";
+	@Action(value = "toLogin",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"includeProperties", "message",
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String login(){
+		Object currentUser=getCurrentUser();
+		if(currentUser!=null){
+			message="";
+		}else{
+			TTeacher teacher=teacherService.login(username, password);
+			List<Map<String,List<TAuthAndSourceInfo>>> menuAndAuthInfoList=null;
+			Map<String,List<TAuthAndSourceInfo>> map_AuthAndSourceInfo=null;
+			if(teacher!=null){
+				setCurrentUser(teacher);
+				menuAndAuthInfoList=new ArrayList<Map<String,List<TAuthAndSourceInfo>>>();
+				List<TAuthAndSourceInfo> authAndSourceInfoList= null;
+				authAndSourceInfoList=teacherService.getAuthAndSourceInfo(2);
+				if(authAndSourceInfoList!=null){
+					map_AuthAndSourceInfo=new HashMap<String, List<TAuthAndSourceInfo>>();
+					map_AuthAndSourceInfo.put(authAndSourceInfoList.get(0).getMenuTitle_Name(), authAndSourceInfoList);
+					menuAndAuthInfoList.add(map_AuthAndSourceInfo);
+				}
+				getSession().put("currentUserAuth", "");
+			//	getSession().put("currentClass", teacher.getClasz().getName());
+				getSession().put("currentUserCode", 1);
+				getSession().put("BO_MenuAndAuthInfoList", menuAndAuthInfoList);
+				message="success";
+			}else{
+				message="-1";
+			}
+		}
+		return SUCCESS;
+	}
+	@Action(value = "logout",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String logout(){
+		setCurrentUser(null);
+		getSession().put("BO_MenuAndAuthInfoList", null);
+		getSession().put("currentUserCode", null);
+		getSession().put("currentUserAuth", null);
+		return SUCCESS;
+	}
+	@Action(value = "checkOldPass",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"includeProperties", "passflag",
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String checkOldPass(){
+		TTeacher udr=(TTeacher)getCurrentUser();
+		if(!oldPass.equals(udr.getPassword())){
+			passflag="0";
+		}else{
+			passflag="1";
+		}
+		return SUCCESS;
+	}
+	@Action(value = "changePass",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String change() {
+		TTeacher employee=(TTeacher)getCurrentUser();
+		employee=teacherService.getTeacher(employee.getId());
+		employee.setPassword(newPass);
+		teacherService.modifyTeacher(employee);
+		setCurrentUser(employee);
+		return SUCCESS;
+	}
+	@Action(value = "addProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})	
+	public String add() {
+		Long maxid=teacherService.getMaxId();
+		String userno=null;
+		if(maxid!=null){
+			teacher.setId(maxid+1);
+		}else{
+			teacher.setId(1);
+		}
+		userno=SystemUtil.getUserNo("T");
+		teacher.setNum(userno);
+		teacher.setPassword(SystemConstant.PASSWORD);
+		teacherService.addTeacher(teacher);
+		return SUCCESS;
+	}
+	@Action(value = "modifyProcess",
+			params={"contentType","text/html;charset=UTF-8"},
+			results={@Result(name = "success",type="json", params = {
+					"excludeNullProperties", "true","excludeProperties","" })
+	})
+	public String modify() {
+		teacherService.modifyTeacher(teacher);
+		return SUCCESS;
+	}
+	@Action(value = "clearSessionForSearch", params = { "contentType",
+	"text/html;charset=UTF-8" }, results = { @Result(name = "clearSesssion", type = "json") })
+	public String clearSessionForSearch(){
+		clearSession();
+		return "clearSesssion";
+	}
+	@Override
+	public String getAllIds() {
+		return allIds;
+	}
+	@Override
+	public void setAllIds(String allIds) {
+		this.allIds=allIds;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@JSON(serialize = false)
+	public TTeacher getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(TTeacher teacher) {
+		this.teacher = teacher;
+	}
+	@JSON(serialize = false)
+	public ITeacherService getTeacherService() {
+		return teacherService;
+	}
+	@Resource
+	public void setTeacherService(ITeacherService teacherService) {
+		this.teacherService = teacherService;
+	}
+	@JSON(serialize = false)
+	public IClaszService getClaszService() {
+		return claszService;
+	}
+	@Resource
+	public void setClaszService(IClaszService claszService) {
+		this.claszService = claszService;
+	}
+	@JSON(serialize = false)
+	public long getOldClassId() {
+		return oldClassId;
+	}
+	public void setOldClassId(long oldClassId) {
+		this.oldClassId = oldClassId;
+	}
+	@JSON(serialize = false)
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	@JSON(serialize = false)
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	@JSON(serialize = false)
+	public String getNewPass() {
+		return newPass;
+	}
+	public void setNewPass(String newPass) {
+		this.newPass = newPass;
+	}
+	@JSON(serialize = false)
+	public String getOldPass() {
+		return oldPass;
+	}
+	public void setOldPass(String oldPass) {
+		this.oldPass = oldPass;
+	}
+	public String getPassflag() {
+		return passflag;
+	}
+	public void setPassflag(String passflag) {
+		this.passflag = passflag;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+        //初始化全局ID
+        dataId=[];
+        var data={
+        };
+        $("input").off("blur");
+        // 创建后就可以一直使用
+        $("input").on("blur", function() {// .unbind("change")
+                $(this).css("background", "white");
+                hideInformation();
+        });
+        forSearchCondition();
+        showMain();
+        $("#add_but").click(function() {
+                showLoading();
+                $("#clazz_main").load("/clazz/toAdd.action", function() {
+                        $("#userTitle").html("添加班级信息");
+                        hideLoading();
+                        $("#clazzbar").hide();
+                        validate("addForm","add");
+                        $("#add_b").click(function(){
+                                $("#addForm").submit();
+                        });
+                        $('#cancel_b').click(function() { 
+                                data={};
+                                showMain();
+                });
+                });
+                //初始化全局ID
+                dataId=[];
+        });
+        function forSearchCondition(){
+                $("#condition1").change(function(){
+                        $("#input").css("background","white");
+                        hideInformation();
+                         $("#input").val("");
+                });
+                        
+        }
+        $('#search_but').click(function(){
+                $("#input").css("background","white");
+                hideInformation();
+                var con1=$('#condition1').val();
+                clearSession("/clazz");
+                if(con1==0){
+                        data={};
+                        showMain();
+                }else{
+                        data={};
+                        var text=$('#input').val();
+                        if((con1=="1"&&text=="")){
+                                $("#input").css("background","#FF77AD");
+                                $("#input").focus();
+                                AlertInfo("请您填写相应的信息");
+                        }else{
+                                data['flagString']=con1;
+                                data['information']=text;
+                                showMain();
+                        }
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function clearError(id){
+                $("#"+id).css("background","white");
+//              hideInformation('effect');
+        }
+        $("#edit_but").click(function(){
+                loadAllIds("/clazz");
+                if(dataId.length==0||dataId=="null"){
+                        AlertInfo("请选择要修改的班级信息");
+                }else if(dataId.length>1){
+                        AlertInfo("请您选择单个班级信息");
+                }else{
+                        showLoading();
+                        $("#clazz_main").load("/clazz/toModify.action",{'student.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑班级信息");
+                                hideLoading();
+                                $("#clazzbar").hide();
+                                $('#edit_b').click(function() {
+                                        $('#editForm').submit();
+                                });
+                                validate("editForm","modify");
+                                $('#cancel_b').click(function() {
+                                        data={};
+                                        showMain();
+                                });
+                        });
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function validate(formId,type){
+                $("#"+formId).validate({                                                  
+                        rules: {
+                                'clasz.name': {
+                                        required: true
+                                },
+                                'clasz.specialty.id': {
+                                        required: true
+                                },
+                                'clasz.counselor.id': {
+                                    required: true
+                                }
+                        },
+                        //设置提示信息
+                        messages:{
+                        	  'clasz.name': {
+                                  required: "请填写班级名称"
+	                          },
+	                          'clasz.specialty.id': {
+	                                  required: "请选择所属专业"
+	                          },
+                              'clasz.counselor.id': {
+                                  required: "请选择辅导员信息"
+                              }
+                        },
+                        //指定错误信息位置
+                        errorPlacement: function (error, element) { 
+                         element.parent().find("span").append(error);
+                        },
+                        //设置验证触发事件
+                        focusInvalid: true,   
+                        submitHandler: function(form) {
+                                if(type=="add"){
+                                        confirmInformation("你确定要添加班级信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("班级信息添加成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }else{
+                                        confirmInformation("你确定要修改班级信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("班级信息修改成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }
+                        }
+                });
+        }
+        function showMain(){
+                clearError('input');
+                toDateList('clazz_main','clazzbar','clazzlist','/clazz',data,'id',generalIdList);
+                $("#userTitle").html("班级信息列表");
+        }
+});
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/clazz/addProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="addForm">
+        <p>
+                <label><span style="color: red">*</span>班级名称</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="clasz.name" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+                <label><span style="color: red">*</span>所属专业</label> 
+                <span class="field"> 
+                        <s:select list="specialtyList" id="pl" listKey="id" listValue="name" cssStyle="width:150px;"
+                                name="clasz.specialty.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>辅导员</label> 
+                <span class="field"> 
+                        <s:select list="counselorList" id="pl" listKey="id" listValue="name" cssStyle="width:100px;"
+                                name="clasz.counselor.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="add_b">添加</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<table id="clazzlist" class="stdtable stdtablecb" cellspacing="0"
+        cellpadding="0" border="0"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
+        <thead>
+                <tr>
+                        <th width="1%"><s:checkbox id="selectAll" name="all" />
+                        </th>
+                        <th width="2%">序号</th>
+                        <th width="8%">班级名称</th>
+                        <th width="8%">所属专业</th>
+                        <th width="8%">辅导员</th>
+                </tr>
+        </thead>
+        <tbody>
+                <s:iterator value="DATALIST" status="st">
+                        <tr>
+                                <s:hidden name="id"></s:hidden>
+                                <td style="border-left: 1px solid #ddd;"><s:checkbox name="sel" />
+                                </td>
+                                <td><s:property value="#st.count+(currentPage-1)*10" />
+                                </td>
+                                <td><s:property value="name" />
+                                </td>
+                                <td><s:property value="specialty.name" />
+                                </td>
+                                <td><s:property value="counselor.name" />
+                                </td>
+                        </tr>
+                </s:iterator>
+        </tbody>
+</table>
+<div class="dataTables_info" id="dyntable2_info" style="margin-left: 20px; margin-right: 20px;">
+        <span class="txt-smaller txt-light"> 当前共有<span class="number"
+                style="color: red;"><s:property value="resultCount" /> </span>个班级信息
+        </span>
+</div>
+<div class="dataTables_paginate paging_full_numbers" style="margin-left: 20px; margin-right: 20px;">
+        <jsp:include page="/template/page.jsp"></jsp:include>
+</div>
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<script type="text/javascript" src="/clazz/js/clazz_main.js"
+        charset="UTF-8"></script>
+<div class="contenttitle2" style="margin-left: 20px;">
+        <h3 id="userTitle">班级信息列表</h3>
+</div>
+<div id="clazzbar"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 10px;">
+        <div class="tableoptions">
+                &nbsp;&nbsp;&nbsp;&nbsp;查询:&nbsp; <select id="condition1" tabindex="1"
+                        style="width: 130px;">
+                        <option value="0">全部班级</option>
+                        <option value="1">按班级名查询</option>
+                </select> &nbsp;&nbsp; <select id="condition2" tabindex="2"
+                        style="width: 100px;" disabled="disabled">
+                </select> &nbsp;&nbsp;
+                <input type="text" size="20px" id="input"
+                        class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
+                <a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+                        class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
+                        href="#" id="edit_but"><span>编辑</span> </a>
+        </div>
+</div>
+<div id="clazz_main"></div>
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/clazz/modifyProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="editForm">
+        <p>
+                <label><span style="color: red">*</span>班级名称</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="clasz.name" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+                <label><span style="color: red">*</span>所属专业</label> 
+                <span class="field"> 
+                        <s:select list="specialtyList" id="pl" listKey="id" listValue="name" cssStyle="width:150px;"
+                                name="clasz.specialty.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>辅导员</label> 
+                <span class="field"> 
+                        <s:select list="counselorList" id="pl" listKey="id" listValue="name" cssStyle="width:100px;"
+                                name="clasz.counselor.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="edit_b">修改</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+        <s:hidden name="clasz.id"></s:hidden>
+</form>
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+        //初始化全局ID
+        dataId=[];
+        var data={
+        };
+        $("input").off("blur");
+        // 创建后就可以一直使用
+        $("input").on("blur", function() {// .unbind("change")
+                $(this).css("background", "white");
+                hideInformation();
+        });
+        forSearchCondition();
+        showMain();
+        $("#add_but").click(function() {
+                showLoading();
+                $("#department_main").load("/department/toAdd.action", function() {
+                        $("#userTitle").html("添加部门信息");
+                        hideLoading();
+                        $("#departmentbar").hide();
+                        validate("addForm","add");
+                        $("#add_b").click(function(){
+                                $("#addForm").submit();
+                        });
+                        $('#cancel_b').click(function() { 
+                                data={};
+                                showMain();
+                });
+                });
+                //初始化全局ID
+                dataId=[];
+        });
+        function forSearchCondition(){
+                $("#condition1").change(function(){
+                        $("#input").css("background","white");
+                        hideInformation();
+                         $("#input").val("");
+                });
+                        
+        }
+        $('#search_but').click(function(){
+                $("#input").css("background","white");
+                hideInformation();
+                var con1=$('#condition1').val();
+                clearSession("/department");
+                if(con1==0){
+                        data={};
+                        showMain();
+                }else{
+                        data={};
+                        var text=$('#input').val();
+                        if((con1=="1"&&text=="")){
+                                $("#input").css("background","#FF77AD");
+                                $("#input").focus();
+                                AlertInfo("请您填写相应的信息");
+                        }else{
+                                data['flagString']=con1;
+                                data['information']=text;
+                                showMain();
+                        }
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function clearError(id){
+                $("#"+id).css("background","white");
+//              hideInformation('effect');
+        }
+        $("#edit_but").click(function(){
+                loadAllIds("/department");
+                if(dataId.length==0||dataId=="null"){
+                        AlertInfo("请选择要修改的部门信息");
+                }else if(dataId.length>1){
+                        AlertInfo("请您选择单个部门信息");
+                }else{
+                        showLoading();
+                        $("#department_main").load("/department/toModify.action",{'student.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑部门信息");
+                                hideLoading();
+                                $("#departmentbar").hide();
+                                $('#edit_b').click(function() {
+                                        $('#editForm').submit();
+                                });
+                                validate("editForm","modify");
+                                $('#cancel_b').click(function() {
+                                        data={};
+                                        showMain();
+                                });
+                        });
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function validate(formId,type){
+                $("#"+formId).validate({                                                  
+                        rules: {
+                                'clasz.name': {
+                                        required: true
+                                },
+                                'clasz.specialty.id': {
+                                        required: true
+                                },
+                                'clasz.counselor.id': {
+                                    required: true
+                                }
+                        },
+                        //设置提示信息
+                        messages:{
+                        	  'clasz.name': {
+                                  required: "请填写部门名称"
+	                          },
+	                          'clasz.specialty.id': {
+	                                  required: "请选择所属专业"
+	                          },
+                              'clasz.counselor.id': {
+                                  required: "请选择辅导员信息"
+                              }
+                        },
+                        //指定错误信息位置
+                        errorPlacement: function (error, element) { 
+                         element.parent().find("span").append(error);
+                        },
+                        //设置验证触发事件
+                        focusInvalid: true,   
+                        submitHandler: function(form) {
+                                if(type=="add"){
+                                        confirmInformation("你确定要添加部门信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("部门信息添加成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }else{
+                                        confirmInformation("你确定要修改部门信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("部门信息修改成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }
+                        }
+                });
+        }
+        function showMain(){
+                clearError('input');
+                toDateList('department_main','departmentbar','departmentlist','/department',data,'id',generalIdList);
+                $("#userTitle").html("部门信息列表");
+        }
+});
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/department/addProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="addForm">
+        <p>
+                <label><span style="color: red">*</span>部门名称</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="department.name" cssStyle="width:150px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>院长</label> <span
+                        class="field"> <s:textfield id="dean" maxlength="4"
+                                name="department.dean" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>书记</label> <span
+                        class="field"> <s:textfield id="secretary" maxlength="4"
+                                name="department.secretary" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>教学院院长</label> <span
+                        class="field"> <s:textfield id="vpt" maxlength="4"
+                                name="department.vpt" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>科研副院长</label> <span
+                        class="field"> <s:textfield id="adr" maxlength="4"
+                                name="department.adr" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>办公室主任</label> <span
+                        class="field"> <s:textfield id="office" maxlength="4"
+                                name="department.office" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>教学秘书</label> <span
+                        class="field"> <s:textfield id="ts" maxlength="4"
+                                name="department.ts" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+          <p>
+                <label><span style="color: red">*</span>行政秘书</label> <span
+                        class="field"> <s:textfield id="as" maxlength="4"
+                                name="department.as" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+			<label><span style="color: red">*</span>联系电话</label> <span
+				class="field"> <s:textfield id="tel" name="department.tel"
+					cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+       <p>
+			<label><span style="color: red">*</span>传真</label> <span
+				class="field"> <s:textfield id="fax" name="department.fax"
+					cssStyle="width:150px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="add_b">添加</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+</form>
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<table id="departmentlist" class="stdtable stdtablecb" cellspacing="0"
+        cellpadding="0" border="0"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
+        <thead>
+                <tr>
+                        <th width="1%"><s:checkbox id="selectAll" name="all" />
+                        </th>
+                        <th width="2%">序号</th>
+                        <th width="8%">部门编号</th>
+                        <th width="8%">部门名称</th>
+                        <th width="8%">院长</th>
+                        <th width="8%">书记</th>
+                        <th width="8%">教学院院长</th>
+                        <th width="8%">科研副院长</th>
+                        <th width="8%">办公室主任</th>
+                        <th width="8%">教学秘书</th>
+                        <th width="8%">行政秘书</th>
+                        <th width="8%">联系电话</th>
+                        <th width="8%">传真</th>
+                </tr>
+        </thead>
+        <tbody>
+                <s:iterator value="DATALIST" status="st">
+                        <tr>
+                                <s:hidden name="id"></s:hidden>
+                                <td style="border-left: 1px solid #ddd;"><s:checkbox name="sel" />
+                                </td>
+                                <td><s:property value="#st.count+(currentPage-1)*10" />
+                                </td>
+                                 <td><s:property value="num" />
+                                </td>
+                                <td><s:property value="name" />
+                                </td>
+                                <td><s:property value="dean" />
+                                </td>
+                                <td><s:property value="secretary" />
+                                </td>
+                                 <td><s:property value="vpt" />
+                                </td>
+                                 <td><s:property value="adr" />
+                                </td>
+                                 <td><s:property value="office" />
+                                </td>
+                                 <td><s:property value="ts" />
+                                </td>
+                                 <td><s:property value="as" />
+                                </td>
+                                 <td><s:property value="tel" />
+                                </td>
+                                 <td><s:property value="fax" />
+                                </td>
+                                
+                        </tr>
+                </s:iterator>
+        </tbody>
+</table>
+<div class="dataTables_info" id="dyntable2_info" style="margin-left: 20px; margin-right: 20px;">
+        <span class="txt-smaller txt-light"> 当前共有<span class="number"
+                style="color: red;"><s:property value="resultCount" /> </span>个部门信息
+        </span>
+</div>
+<div class="dataTables_paginate paging_full_numbers" style="margin-left: 20px; margin-right: 20px;">
+        <jsp:include page="/template/page.jsp"></jsp:include>
+</div>
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<script type="text/javascript" src="/department/js/department_main.js"
+        charset="UTF-8"></script>
+<div class="contenttitle2" style="margin-left: 20px;">
+        <h3 id="userTitle">部门信息列表</h3>
+</div>
+<div id="departmentbar"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 10px;">
+        <div class="tableoptions">
+                &nbsp;&nbsp;&nbsp;&nbsp;查询:&nbsp; <select id="condition1" tabindex="1"
+                        style="width: 130px;">
+                        <option value="0">全部部门</option>
+                         <option value="1">按部门编号查询</option>
+                        <option value="2">按部门名查询</option>
+                </select> &nbsp;&nbsp; <select id="condition2" tabindex="2"
+                        style="width: 100px;" disabled="disabled">
+                </select> &nbsp;&nbsp;
+                <input type="text" size="20px" id="input"
+                        class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
+                <a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+                        class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
+                        href="#" id="edit_but"><span>编辑</span> </a>
+        </div>
+</div>
+<div id="department_main"></div>
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/department/modifyProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="editForm">
+        <p>
+			<label>部门编号</label> <span class="field"> <s:property
+					value="department.num" />
+			</span>
+		</p>
+        <p>
+                <label><span style="color: red">*</span>部门名称</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="department.name" cssStyle="width:150px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>院长</label> <span
+                        class="field"> <s:textfield id="dean" maxlength="4"
+                                name="department.dean" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>书记</label> <span
+                        class="field"> <s:textfield id="secretary" maxlength="4"
+                                name="department.secretary" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>教学院院长</label> <span
+                        class="field"> <s:textfield id="vpt" maxlength="4"
+                                name="department.vpt" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>科研副院长</label> <span
+                        class="field"> <s:textfield id="adr" maxlength="4"
+                                name="department.adr" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>办公室主任</label> <span
+                        class="field"> <s:textfield id="office" maxlength="4"
+                                name="department.office" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>教学秘书</label> <span
+                        class="field"> <s:textfield id="ts" maxlength="4"
+                                name="department.ts" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+          <p>
+                <label><span style="color: red">*</span>行政秘书</label> <span
+                        class="field"> <s:textfield id="as" maxlength="4"
+                                name="department.as" cssStyle="width:80px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+			<label><span style="color: red">*</span>联系电话</label> <span
+				class="field"> <s:textfield id="tel" name="department.tel"
+					cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+       <p>
+			<label><span style="color: red">*</span>传真</label> <span
+				class="field"> <s:textfield id="fax" name="department.fax"
+					cssStyle="width:150px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="edit_b">修改</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+        <s:hidden name="department.id"></s:hidden>
+         <s:hidden name="department.num"></s:hidden>
+</form>
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+        //初始化全局ID
+        dataId=[];
+        var data={
+        };
+        $("input").off("blur");
+        // 创建后就可以一直使用
+        $("input").on("blur", function() {// .unbind("change")
+                $(this).css("background", "white");
+                hideInformation();
+        });
+        forSearchCondition();
+        showMain();
+        $("#add_but").click(function() {
+                showLoading();
+                $("#specialty_main").load("/specialty/toAdd.action", function() {
+                        $("#userTitle").html("添加专业信息");
+                        hideLoading();
+                        $("#specialtybar").hide();
+                        validate("addForm","add");
+                        $("#add_b").click(function(){
+                                $("#addForm").submit();
+                        });
+                        $('#cancel_b').click(function() { 
+                                data={};
+                                showMain();
+                });
+                });
+                //初始化全局ID
+                dataId=[];
+        });
+        function forSearchCondition(){
+                $("#condition1").change(function(){
+                        $("#input").css("background","white");
+                        hideInformation();
+                         $("#input").val("");
+                });
+                        
+        }
+        $('#search_but').click(function(){
+                $("#input").css("background","white");
+                hideInformation();
+                var con1=$('#condition1').val();
+                clearSession("/specialty");
+                if(con1==0){
+                        data={};
+                        showMain();
+                }else{
+                        data={};
+                        var text=$('#input').val();
+                        if((con1=="1"&&text=="")||(con1=="2"&&text=="")){
+                                $("#input").css("background","#FF77AD");
+                                $("#input").focus();
+                                AlertInfo("请您填写相应的信息");
+                        }else{
+                                data['flagString']=con1;
+                                data['information']=text;
+                                showMain();
+                        }
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function clearError(id){
+                $("#"+id).css("background","white");
+//              hideInformation('effect');
+        }
+        $("#edit_but").click(function(){
+                loadAllIds("/specialty");
+                if(dataId.length==0||dataId=="null"){
+                        AlertInfo("请选择要修改的专业信息");
+                }else if(dataId.length>1){
+                        AlertInfo("请您选择单个专业信息");
+                }else{
+                        showLoading();
+                        $("#specialty_main").load("/specialty/toModify.action",{'student.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑专业信息");
+                                hideLoading();
+                                $("#specialtybar").hide();
+                                $('#edit_b').click(function() {
+                                        $('#editForm').submit();
+                                });
+                                validate("editForm","modify");
+                                $('#cancel_b').click(function() {
+                                        data={};
+                                        showMain();
+                                });
+                        });
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function validate(formId,type){
+                $("#"+formId).validate({                                                  
+                        rules: {
+                        		'specialty.codeStr': {
+                        		required: true
+                        		},
+                                'specialty.name': {
+                                        required: true
+                                },
+                                'specialty.tuition': {
+                                    required: true,
+                                    number:true,
+                                    gt:0
+                                },
+                                'specialty.college': {
+                                	required: true
+                                },
+                                'specialty.tel': {
+                                	required: true,
+                                	isMobile:true
+                                },
+                                'specialty.fax': {
+                                	required: true
+                                }
+                        },
+                        //设置提示信息
+                        messages:{
+	                        	'specialty.codeStr': {
+	                        		required: "请填写专业代码"
+                        		},
+                        	 	'specialty.name': {
+                                 required: "请填写专业名称"
+		                         },
+                                'specialty.tuition': {
+                                    required: "请填写学费",
+                                    number:"请填写正确的格式",
+                                    gt:"请填写正确的学费"
+                                },
+                                'specialty.college': {
+                                	required: "请填写学院信息"
+                                },
+                                'specialty.tel': {
+                                	required: "请填写联系电话",
+                                	isMobile:"请填写正确的联系电话"
+                                },
+                                'specialty.fax': {
+                                	required: "请填写传真",
+                                }
+                        },
+                        //指定错误信息位置
+                        errorPlacement: function (error, element) { 
+                         element.parent().find("span").append(error);
+                        },
+                        //设置验证触发事件
+                        focusInvalid: true,   
+                        submitHandler: function(form) {
+                                if(type=="add"){
+                                        confirmInformation("你确定要添加专业信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("专业信息添加成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }else{
+                                        confirmInformation("你确定要修改专业信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("专业信息修改成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }
+                        }
+                });
+        }
+        function showMain(){
+                clearError('input');
+                toDateList('specialty_main','specialtybar','specialtylist','/specialty',data,'id',generalIdList);
+                $("#userTitle").html("专业信息列表");
+        }
+});
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/specialty/addProcess.action" method="post"
+	style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+	id="addForm">
+	<p>
+		<label><span style="color: red">*</span>专业代码</label> <span
+			class="field"> <s:textfield id="codeStr" maxlength="4"
+				name="specialty.codeStr" cssStyle="width:70px;"
+				cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>专业名称</label> <span
+			class="field"> <s:textfield id="name" name="specialty.name"
+				cssStyle="width:170px;" cssClass="text-input small-input"></s:textfield>
+			&nbsp;&nbsp; <span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>科类</label> <span class="field">
+			<select name="specialty.cc" style="width: 150px;">
+				<option>文历</option>
+				<option>理工</option>
+				<option>文艺</option>
+		</select>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学制</label> <span class="field">
+			<select name="specialty.es" style="width: 150px;">
+				<option>三年</option>
+				<option>四年</option>
+				<option>五年</option>
+		</select>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学费</label> <span class="field">
+			<s:textfield id="tuition" name="specialty.tuition"
+				cssStyle="width:70px;" cssClass="text-input small-input"></s:textfield>元&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学院</label> <span class="field">
+			<s:textfield id="college" name="specialty.college"
+				cssStyle="width:270px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>联系电话</label> <span
+			class="field"> <s:textfield id="tel" name="specialty.tel"
+				cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>传真</label> <span
+			class="field"> <s:textfield id="fax" name="specialty.fax"
+				cssStyle="width:150px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p class="stdformbutton">
+		<button class="stdbtn btn_blue" type="button" id="add_b">添加</button>
+		<button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+	</p>
+</form>
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<table id="specialtylist" class="stdtable stdtablecb" cellspacing="0"
+        cellpadding="0" border="0"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
+        <thead>
+                <tr>
+                        <th width="1%"><s:checkbox id="selectAll" name="all" />
+                        </th>
+                        <th width="2%">序号</th>
+                         <th width="8%">专业代号</th>
+                          <th width="12%">专业名称</th>
+                        <th width="8%">科类</th>
+                        <th width="8%">学制</th>
+                        <th width="8%">学费</th>
+                        <th width="18%">学院</th>
+                        <th width="8%">联系电话</th>
+                        <th width="8%">传真</th>
+                </tr>
+        </thead>
+        <tbody>
+                <s:iterator value="DATALIST" status="st">
+                        <tr>
+                                <s:hidden name="id"></s:hidden>
+                                <td style="border-left: 1px solid #ddd;"><s:checkbox name="sel" />
+                                </td>
+                                <td><s:property value="#st.count+(currentPage-1)*10" />
+                                </td>
+                                <td><s:property value="codeStr" />
+                                </td>
+                                <td><s:property value="name" />
+                                </td>
+                               <td><s:property value="cc" />
+                                </td>
+                                <td><s:property value="es" />
+                                </td>
+                                  <td><s:property value="tuition" />
+                                </td>
+                                  <td><s:property value="college" />
+                                </td>
+                                  <td><s:property value="tel" />
+                                </td>
+                                  <td><s:property value="fax" />
+                                </td>
+                        </tr>
+                </s:iterator>
+        </tbody>
+</table>
+<div class="dataTables_info" id="dyntable2_info" style="margin-left: 20px; margin-right: 20px;">
+        <span class="txt-smaller txt-light"> 当前共有<span class="number"
+                style="color: red;"><s:property value="resultCount" /> </span>个专业信息
+        </span>
+</div>
+<div class="dataTables_paginate paging_full_numbers" style="margin-left: 20px; margin-right: 20px;">
+        <jsp:include page="/template/page.jsp"></jsp:include>
+</div>
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<script type="text/javascript" src="/specialty/js/specialty_main.js"
+        charset="UTF-8"></script>
+<div class="contenttitle2" style="margin-left: 20px;">
+        <h3 id="userTitle">专业信息列表</h3>
+</div>
+<div id="specialtybar"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 10px;">
+        <div class="tableoptions">
+                &nbsp;&nbsp;&nbsp;&nbsp;查询:&nbsp; <select id="condition1" tabindex="1"
+                        style="width: 130px;">
+                        <option value="0">全部专业信息</option>
+                        <option value="1">按专业名称查询</option>
+                </select> &nbsp;&nbsp; <select id="condition2" tabindex="2"
+                        style="width: 100px;" disabled="disabled">
+                </select> &nbsp;&nbsp;
+                <input type="text" size="20px" id="input"
+                        class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
+                <a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+                        class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
+                        href="#" id="edit_but"><span>编辑</span> </a>
+        </div>
+</div>
+<div id="specialty_main"></div>
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/specialty/modifyProcess.action" method="post"
+	style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+	id="editForm">
+	<p>
+		<label><span style="color: red">*</span>专业代码</label> <span
+			class="field"> <s:textfield id="codeStr" maxlength="4"
+				name="specialty.codeStr" cssStyle="width:70px;"
+				cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>专业名称</label> <span
+			class="field"> <s:textfield id="name" name="specialty.name"
+				cssStyle="width:170px;" cssClass="text-input small-input"></s:textfield>
+			&nbsp;&nbsp; <span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>科类</label> <span class="field">
+			<select name="specialty.cc" style="width: 150px;">
+				<option>文历</option>
+				<option>理工</option>
+				<option>文艺</option>
+		</select>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学制</label> <span class="field">
+			<select name="specialty.es" style="width: 150px;">
+				<option>三年</option>
+				<option>四年</option>
+				<option>五年</option>
+		</select>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学费</label> <span class="field">
+			<s:textfield id="tuition" name="specialty.tuition"
+				cssStyle="width:70px;" cssClass="text-input small-input"></s:textfield>元&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学院</label> <span class="field">
+			<s:textfield id="college" name="specialty.college"
+				cssStyle="width:270px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>联系电话</label> <span
+			class="field"> <s:textfield id="tel" name="specialty.tel"
+				cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>传真</label> <span class="field">
+			<s:textfield id="fax" name="specialty.fax" cssStyle="width:150px;"
+				cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<s:hidden name="specialty.id"></s:hidden>
+</form>
+
+
+
+
+
+
+$(document).ready(function() {
+        //初始化全局ID
+        dataId=[];
+        var data={
+        };
+        $("input").off("blur");
+        // 创建后就可以一直使用
+        $("input").on("blur", function() {// .unbind("change")
+                $(this).css("background", "white");
+                hideInformation();
+        });
+        forSearchCondition();
+        showMain();
+        $("#add_but").click(function() {
+                showLoading();
+                $("#student_main").load("/student/toAdd.action", function() {
+                        $("#userTitle").html("添加学生信息");
+                        hideLoading();
+                        $("#studentbar").hide();
+                        validate("addForm","add");
+                        $("#add_b").click(function(){
+                                $("#addForm").submit();
+                        });
+                        $('#cancel_b').click(function() { 
+                                data={};
+                                showMain();
+                });
+                });
+                //初始化全局ID
+                dataId=[];
+        });
+        function forSearchCondition(){
+                $("#condition1").change(function(){
+                        $("#input").css("background","white");
+                        hideInformation();
+                         $("#input").val("");
+                });
+                        
+        }
+        $('#search_but').click(function(){
+                $("#input").css("background","white");
+                hideInformation();
+                var con1=$('#condition1').val();
+                clearSession("/student");
+                if(con1==0){
+                        data={};
+                        showMain();
+                }else{
+                        data={};
+                        var text=$('#input').val();
+                        if((con1=="1"&&text=="")||(con1=="2"&&text=="")){
+                                $("#input").css("background","#FF77AD");
+                                $("#input").focus();
+                                AlertInfo("请您填写相应的信息");
+                        }else{
+                                data['flagString']=con1;
+                                data['information']=text;
+                                showMain();
+                        }
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function clearError(id){
+                $("#"+id).css("background","white");
+//              hideInformation('effect');
+        }
+        $("#edit_but").click(function(){
+                loadAllIds("/student");
+                if(dataId.length==0||dataId=="null"){
+                        AlertInfo("请选择要修改的学生信息");
+                }else if(dataId.length>1){
+                        AlertInfo("请您选择单个学生信息");
+                }else{
+                        showLoading();
+                        $("#student_main").load("/student/toModify.action",{'student.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑学生信息");
+                                hideLoading();
+                                $("#studentbar").hide();
+                                $('#edit_b').click(function() {
+                                        $('#editForm').submit();
+                                });
+                                validate("editForm","modify");
+                                $('#cancel_b').click(function() {
+                                        data={};
+                                        showMain();
+                                });
+                        });
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function validate(formId,type){
+                $("#"+formId).validate({                                                  
+                        rules: {
+                                'student.name': {
+                                      required: true
+                                },
+                                'student.personId':{
+                                	  required: true,
+                                	  isIdCardNo:true
+                                },
+                                'student.birthday': {
+                                        required: true
+                                },
+                                'student.indate': {
+                                    required: true
+	                            },
+	                            'student.class1.id': {
+	                                required: true
+		                        },
+		                        'student.tel': {
+		                            required: true,
+		                            isMobile:true
+			                    },
+			                    'student.mail': {
+			                        required: true,
+			                        email:true
+				                },
+				                'student.guardainName': {
+				                    required: true
+					            },
+					            'student.guardainTel': {
+					                required: true,
+		                            isMobile:true
+					            }
+                        },
+                        //设置提示信息
+                        messages:{
+                        	'student.name': {
+                                required: "请填写学生姓名"
+                            },
+                            'student.personId':{
+                          	  required: "请填写学生身份证号",
+                          	  isIdCardNo:"请填写正确的身份证号"
+                            },
+                            'student.birthday': {
+                                  required: "请选择学生出生年月"
+                            },
+                            'student.indate': {
+                              required: "请选择学生入学日期"
+                            },
+                            'student.class1.id': {
+                              required: "请选择学生班级信息"
+	                        },
+	                        'student.tel': {
+	                            required: "请填写学生联系电话",
+	                            isMobile:"请填写正确的联系电话"
+		                    },
+		                    'student.mail': {
+		                        required: "请填写学生的邮箱地址",
+		                        email:"请填写正确的邮箱地址",
+			                },
+			                'student.guardainName': {
+			                    required: "请填写监护人姓名"
+				            },
+				            'student.guardainTel': {
+				                required:  "请填写监护人联系电话",
+	                            isMobile:"请填写正确的联系电话"
+				            }
+                        },
+                        //指定错误信息位置
+                        errorPlacement: function (error, element) { 
+                         element.parent().find("span").append(error);
+                        },
+                        //设置验证触发事件
+                        focusInvalid: true,   
+                        submitHandler: function(form) {
+                                if(type=="add"){
+                                        confirmInformation("你确定要添加学生信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("学生信息添加成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }else{
+                                        confirmInformation("你确定要修改学生信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("学生信息修改成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }
+                        }
+                });
+        }
+        function showMain(){
+                clearError('input');
+                toDateList('student_main','studentbar','studentlist','/student',data,'id',generalIdList);
+                $("#userTitle").html("学生信息列表");
+        }
+});
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/student/addProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="addForm">
+        <p>
+                <label><span style="color: red">*</span>姓名</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="student.name" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+                <label>性别</label> <span
+                        class="field"> <s:radio list="#{'男':'男','女':'女' }" name="student.sex" value="'男'"></s:radio> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>身份证号码</label> <span
+                        class="field"> <s:textfield id="personId" 
+                                name="student.personId" cssStyle="width:200px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+                <label>籍贯</label> <span
+                        class="field"> <s:textfield id="hometown" 
+                                name="student.hometown" cssStyle="width:200px;"
+                                cssClass="text-input small-input"></s:textfield></span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>出生年月</label> <span
+                        class="field"> <s:textfield id="birthday"
+                                name="student.birthday" cssStyle="width:100px;"
+                                cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span></span>
+        </p>
+        <p>
+                <label>高中院校</label> <span
+                        class="field"> <s:textfield id="school"
+                                name="student.school" cssStyle="width:250px;"
+                                cssClass="text-input small-input"></s:textfield></span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>入校时间</label> <span
+                        class="field"> <s:textfield id="indate"
+                                name="student.indate" cssStyle="width:100px;"
+                                cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span></span>
+        </p>
+        <p>
+                <label><span style="color: red">*</span>所属班级</label> 
+                <span class="field"> 
+                        <s:select list="claszList" id="pl" listKey="id" listValue="name" cssStyle="width:150px;"
+                                name="student.class1.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p>
+			<label><span style="color: red">*</span>联系电话</label> <span
+				class="field"> <s:textfield id="tel" name="student.tel"
+					cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+		<p>
+			<label>邮箱</label> <span
+				class="field"> <s:textfield id="mail" name="student.mail"
+					cssStyle="width:150px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+		<p>
+			<label><span style="color: red">*</span>学院</label> <span class="field">
+				<s:textfield id="college" name="student.college"
+					cssStyle="width:270px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+		<p>
+			<label>学生类型</label> <span class="field">
+				<select name="student.stype" style="width: 150px;">
+					<option>统招</option>
+					<option>自考</option>
+			</select>
+			</span>
+		</p>
+		<p>
+			<label>民族</label> <span class="field">
+				<select name="student.nation" style="width: 150px;">
+					<option>汉</option>
+					<option>苗</option>
+			</select>
+			</span>
+		</p>
+		<p>
+			<label>家庭住址</label> <span class="field">
+				<s:textfield id="address" name="student.address"
+					cssStyle="width:370px;" cssClass="text-input small-input"></s:textfield>
+			</span>
+		</p>
+		<p>
+			<label><span style="color: red">*</span>监护人姓名</label> <span class="field">
+				<s:textfield id="guardainName" name="student.guardainName"
+					cssStyle="width:50px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+		  <p>
+			<label><span style="color: red">*</span>监护人电话</label> <span
+				class="field"> <s:textfield id="guardainTel" name="student.guardainTel"
+					cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+				<span class="help-inline" style="color: red;"> </span>
+			</span>
+		</p>
+		<p>
+			<label>监护人地址</label> <span class="field">
+				<s:textfield id="guardainAddress" name="student.guardainAddress"
+					cssStyle="width:370px;" cssClass="text-input small-input"></s:textfield>
+			</span>
+		</p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="add_b">添加</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<table id="studentlist" class="stdtable stdtablecb" cellspacing="0"
+        cellpadding="0" border="0"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
+        <thead>
+                <tr>
+                        <th width="1%"><s:checkbox id="selectAll" name="all" />
+                        </th>
+                        <th width="2%">序号</th>
+                        <th width="8%">学生编号</th>
+                        <th width="8%">姓名</th>
+                        <th width="8%">性别</th>
+                        <th width="8%">身份证号码</th>
+                        <th width="8%">民族</th>  
+                        <th width="8%">籍贯</th>
+                        <th width="8%">出生年月</th>
+                        <th width="8%">高中院校</th>
+                        <th width="8%">入校时间</th>
+                        <th width="8%">学院</th>
+                        <th width="8%">专业</th>
+                        <th width="8%">班级</th>
+                        <th width="8%">联系电话</th>
+                        <th width="8%">邮箱</th>
+                        <th width="8%">学生类型</th>
+                        <th width="8%">监护人姓名</th>
+                        <th width="8%">监护人电话</th>
+                </tr>
+        </thead>
+        <tbody>
+                <s:iterator value="DATALIST" status="st">
+                        <tr>
+                                <s:hidden name="id"></s:hidden>
+                                <td style="border-left: 1px solid #ddd;"><s:checkbox name="sel" />
+                                </td>
+                                <td><s:property value="#st.count+(currentPage-1)*10" />
+                                </td>
+                                <td><s:property value="num" />
+                                </td>
+                                <td><s:property value="name" />
+                                </td>
+                               <td><s:property value="sex" />
+                                </td>
+                                <td><s:property value="personId" />
+                                </td>
+                                <td><s:property value="nation" />
+                                </td>
+                                <td><s:property value="hometown" />
+                                </td>
+                                <td><s:property value="birthday" />
+                                </td>
+                                 <td><s:property value="school" />
+                                </td>
+                                 <td><s:property value="indate" />
+                                </td>
+                                 <td><s:property value="school" />
+                                </td>
+                                 <td><s:property value="" />
+                                </td>
+                                 <td><s:property value="class1.name" />
+                                </td>
+                                 <td><s:property value="tel" />
+                                </td>
+                                 <td><s:property value="mail" />
+                                </td>
+                                 <td><s:property value="stype" />
+                                </td>
+                                 <td><s:property value="guardainName" />
+                                </td>
+                                 <td><s:property value="guardainTel" />
+                                </td>
+                        </tr>
+                </s:iterator>
+        </tbody>
+</table>
+<div class="dataTables_info" id="dyntable2_info" style="margin-left: 20px; margin-right: 20px;">
+        <span class="txt-smaller txt-light"> 当前共有<span class="number"
+                style="color: red;"><s:property value="resultCount" /> </span>条学生信息
+        </span>
+</div>
+<div class="dataTables_paginate paging_full_numbers" style="margin-left: 20px; margin-right: 20px;">
+        <jsp:include page="/template/page.jsp"></jsp:include>
+</div>
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<script type="text/javascript" src="/student/js/student_main.js"
+        charset="UTF-8"></script>
+<div class="contenttitle2" style="margin-left: 20px;">
+        <h3 id="userTitle">学生信息列表</h3>
+</div>
+<div id="studentbar"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 10px;">
+        <div class="tableoptions">
+                &nbsp;&nbsp;&nbsp;&nbsp;查询:&nbsp; <select id="condition1" tabindex="1"
+                        style="width: 130px;">
+                        <option value="0">全部学生</option>
+                        <option value="1">按学号查询</option>
+                        <option value="2">按姓名查询</option>
+                </select> &nbsp;&nbsp; <select id="condition2" tabindex="2"
+                        style="width: 100px;" disabled="disabled">
+                </select> &nbsp;&nbsp;
+                <input type="text" size="20px" id="input"
+                        class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
+                <a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+                        class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
+                        href="#" id="edit_but"><span>编辑</span> </a>
+        </div>
+</div>
+<div id="student_main"></div>
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="/student/modifyProcess.action" method="post"
+	style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+	id="editForm">
+	<p>
+		<label>学生编号</label> <span class="field"> <s:property
+				value="student.num" />
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>姓名</label> <span class="field">
+			<s:textfield id="name" maxlength="4" name="student.name"
+				cssStyle="width:70px;" cssClass="text-input small-input"></s:textfield>
+			&nbsp;&nbsp; <span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label>性别</label> <span class="field"> <s:radio
+				list="#{'男':'男','女':'女' }" name="student.sex" value="'男'"></s:radio>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>身份证号码</label> <span
+			class="field"> <s:textfield id="personId"
+				name="student.personId" cssStyle="width:200px;"
+				cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label>籍贯</label> <span class="field"> <s:textfield
+				id="hometown" name="student.hometown" cssStyle="width:200px;"
+				cssClass="text-input small-input"></s:textfield></span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>出生年月</label> <span
+			class="field"> <s:textfield id="birthday"
+				name="student.birthday" cssStyle="width:100px;"
+				cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span></span>
+	</p>
+	<p>
+		<label>高中院校</label> <span class="field"> <s:textfield
+				id="school" name="student.school" cssStyle="width:250px;"
+				cssClass="text-input small-input"></s:textfield></span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>入校时间</label> <span
+			class="field"> <s:textfield id="indate" name="student.indate"
+				cssStyle="width:100px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span></span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>所属班级</label> <span
+			class="field"> <s:select list="claszList" id="pl" listKey="id"
+				listValue="name" cssStyle="width:150px;" name="student.class1.id"
+				cssClass="positionSelect" emptyOption="true"></s:select> <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>联系电话</label> <span
+			class="field"> <s:textfield id="tel" name="student.tel"
+				cssStyle="width:90px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label>邮箱</label> <span class="field"> <s:textfield id="mail"
+				name="student.mail" cssStyle="width:150px;"
+				cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>学院</label> <span class="field">
+			<s:textfield id="college" name="student.college"
+				cssStyle="width:270px;" cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp;
+			<span class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label>学生类型</label> <span class="field"> <select
+			name="student.stype" style="width: 150px;">
+				<option>统招</option>
+				<option>自考</option>
+		</select>
+		</span>
+	</p>
+	<p>
+		<label>民族</label> <span class="field"> <select
+			name="student.nation" style="width: 150px;">
+				<option>汉</option>
+				<option>苗</option>
+		</select>
+		</span>
+	</p>
+	<p>
+		<label>家庭住址</label> <span class="field"> <s:textfield
+				id="address" name="student.address" cssStyle="width:370px;"
+				cssClass="text-input small-input"></s:textfield>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>监护人姓名</label> <span
+			class="field"> <s:textfield id="guardainName"
+				name="student.guardainName" cssStyle="width:50px;"
+				cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label><span style="color: red">*</span>监护人电话</label> <span
+			class="field"> <s:textfield id="guardainTel"
+				name="student.guardainTel" cssStyle="width:90px;"
+				cssClass="text-input small-input"></s:textfield>&nbsp;&nbsp; <span
+			class="help-inline" style="color: red;"> </span>
+		</span>
+	</p>
+	<p>
+		<label>监护人地址</label> <span class="field"> <s:textfield
+				id="guardainAddress" name="student.guardainAddress"
+				cssStyle="width:370px;" cssClass="text-input small-input"></s:textfield>
+		</span>
+	</p>
+	<p class="stdformbutton">
+		<button class="stdbtn btn_blue" type="button" id="edit_b">修改</button>
+		<button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+	</p>
+	<s:hidden name="student.id"></s:hidden>
+</form>
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+        //初始化全局ID
+        dataId=[];
+        var data={
+        };
+        $("input").off("blur");
+        // 创建后就可以一直使用
+        $("input").on("blur", function() {// .unbind("change")
+                $(this).css("background", "white");
+                hideInformation();
+        });
+        forSearchCondition();
+        showMain();
+        $("#add_but").click(function() {
+                showLoading();
+                $("#tar_main").load("/tar/toAdd.action", function() {
+                        $("#userTitle").html("添加教研室信息");
+                        hideLoading();
+                        $("#tarbar").hide();
+                        validate("addForm","add");
+                        $("#add_b").click(function(){
+                                $("#addForm").submit();
+                        });
+                        $('#cancel_b').click(function() { 
+                                data={};
+                                showMain();
+                });
+                });
+                //初始化全局ID
+                dataId=[];
+        });
+        function forSearchCondition(){
+                $("#condition1").change(function(){
+                        $("#input").css("background","white");
+                        hideInformation();
+                         $("#input").val("");
+                });
+                        
+        }
+        $('#search_but').click(function(){
+                $("#input").css("background","white");
+                hideInformation();
+                var con1=$('#condition1').val();
+                clearSession("/tar");
+                if(con1==0){
+                        data={};
+                        showMain();
+                }else{
+                        data={};
+                        var text=$('#input').val();
+                        if((con1=="1"&&text=="")){
+                                $("#input").css("background","#FF77AD");
+                                $("#input").focus();
+                                AlertInfo("请您填写相应的信息");
+                        }else{
+                                data['flagString']=con1;
+                                data['information']=text;
+                                showMain();
+                        }
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function clearError(id){
+                $("#"+id).css("background","white");
+//              hideInformation('effect');
+        }
+        $("#edit_but").click(function(){
+                loadAllIds("/tar");
+                if(dataId.length==0||dataId=="null"){
+                        AlertInfo("请选择要修改的教研室信息");
+                }else if(dataId.length>1){
+                        AlertInfo("请您选择单个教研室信息");
+                }else{
+                        showLoading();
+                        $("#tar_main").load("/tar/toModify.action",{'student.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑教研室信息");
+                                hideLoading();
+                                $("#tarbar").hide();
+                                $('#edit_b').click(function() {
+                                        $('#editForm').submit();
+                                });
+                                validate("editForm","modify");
+                                $('#cancel_b').click(function() {
+                                        data={};
+                                        showMain();
+                                });
+                        });
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function validate(formId,type){
+                $("#"+formId).validate({                                                  
+                        rules: {
+                                'clasz.name': {
+                                        required: true
+                                },
+                                'clasz.specialty.id': {
+                                        required: true
+                                },
+                                'clasz.counselor.id': {
+                                    required: true
+                                }
+                        },
+                        //设置提示信息
+                        messages:{
+                        	  'clasz.name': {
+                                  required: "请填写教研室名称"
+	                          },
+	                          'clasz.specialty.id': {
+	                                  required: "请选择所属专业"
+	                          },
+                              'clasz.counselor.id': {
+                                  required: "请选择辅导员信息"
+                              }
+                        },
+                        //指定错误信息位置
+                        errorPlacement: function (error, element) { 
+                         element.parent().find("span").append(error);
+                        },
+                        //设置验证触发事件
+                        focusInvalid: true,   
+                        submitHandler: function(form) {
+                                if(type=="add"){
+                                        confirmInformation("你确定要添加教研室信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("教研室信息添加成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }else{
+                                        confirmInformation("你确定要修改教研室信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("教研室信息修改成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }
+                        }
+                });
+        }
+        function showMain(){
+                clearError('input');
+                toDateList('tar_main','tarbar','tarlist','/tar',data,'id',generalIdList);
+                $("#userTitle").html("教研室信息列表");
+        }
+});
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+        //初始化全局ID
+        dataId=[];
+        var data={
+        };
+        $("input").off("blur");
+        // 创建后就可以一直使用
+        $("input").on("blur", function() {// .unbind("change")
+                $(this).css("background", "white");
+                hideInformation();
+        });
+        forSearchCondition();
+        showMain();
+        $("#add_but").click(function() {
+                showLoading();
+                $("#teacher_main").load("../system/teacher/toAdd.action", function() {
+                        $("#userTitle").html("添加教师信息");
+                        hideLoading();
+                        $("#teacherbar").hide();
+                        validate("addForm","add");
+                        $("#add_b").click(function(){
+                                $("#addForm").submit();
+                        });
+                        $('#cancel_b').click(function() { 
+                                data={};
+                                showMain();
+                });
+                });
+                //初始化全局ID
+                dataId=[];
+        });
+        function forSearchCondition(){
+                $("#condition1").change(function(){
+                        $("#input").css("background","white");
+                        hideInformation();
+                         $("#input").val("");
+                });
+                        
+        }
+        $('#search_but').click(function(){
+                $("#input").css("background","white");
+                hideInformation();
+                var con1=$('#condition1').val();
+                clearSession("/system/teacher");
+                if(con1==0){
+                        data={};
+                        showMain();
+                }else{
+                        data={};
+                        var text=$('#input').val();
+                        if((con1=="1"&&text=="")||(con1=="2"&&text=="")){
+                                $("#input").css("background","#FF77AD");
+                                $("#input").focus();
+                                AlertInfo("请您填写相应的信息");
+                        }else{
+                                data['flagString']=con1;
+                                data['information']=text;
+                                showMain();
+                        }
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function clearError(id){
+                $("#"+id).css("background","white");
+//              hideInformation('effect');
+        }
+        $("#edit_but").click(function(){
+                loadAllIds("/system/teacher");
+                if(dataId.length==0||dataId=="null"){
+                        AlertInfo("请选择要修改的教师信息");
+                }else if(dataId.length>1){
+                        AlertInfo("请您选择单个教师信息");
+                }else{
+                        showLoading();
+                        $("#teacher_main").load("../system/teacher/toModify.action",{'student.id':dataId[0]},function(){
+                                $("#userTitle").html("编辑教师信息");
+                                hideLoading();
+                                $("#teacherbar").hide();
+                                $('#edit_b').click(function() {
+                                        $('#editForm').submit();
+                                });
+                                validate("editForm","modify");
+                                $('#cancel_b').click(function() {
+                                        data={};
+                                        showMain();
+                                });
+                        });
+                }
+                //清空全局Ids
+                dataId = [];
+        });
+        function validate(formId,type){
+                $("#"+formId).validate({                                                  
+                        rules: {
+                                'student.name': {
+                                        required: true
+                                },
+                                'student.age':{
+                                	  required: true,
+                                	  digits:true,
+                                	  gt:0
+                                },
+                                'student.class1.id': {
+                                        required: true
+                                }
+                        },
+                        //设置提示信息
+                        messages:{
+                        	 	'student.name': {
+                                 required: "请填写教师姓名"
+		                         },
+		                         'student.age':{
+		                         	  required:  "请填写教师年龄",
+		                         	  digits:"请填写正确的教师年龄",
+		                         	  gt:"请填写正确的教师年龄"
+		                         },
+                                'student.class1.id': {
+                                        required: "请选择班级信息"
+                                }
+                        },
+                        //指定错误信息位置
+                        errorPlacement: function (error, element) { 
+                         element.parent().find("span").append(error);
+                        },
+                        //设置验证触发事件
+                        focusInvalid: true,   
+                        submitHandler: function(form) {
+                                if(type=="add"){
+                                        confirmInformation("你确定要添加教师信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("教师信息添加成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }else{
+                                        confirmInformation("你确定要修改教师信息吗？",function(){
+                                                // 提交表单<br>
+                                                var option = {
+                                                                data:{},
+                                                                beforeSubmit : function() {
+                                                                        showLoading();
+                                                                        return true;
+                                                                },
+                                                                success : function() {
+                                                                        data={};
+                                                                        showMain();
+                                                                        setTimeout('AlertInfo("教师信息修改成功")',1800);
+                                                                },error : function (jqXHR, textStatus, errorThrown) {
+                                                                        showAlertDialog(errorThrown + " " + textStatus);
+                                                                }
+                                                        };
+                                                $('#'+formId).ajaxSubmit(option); 
+                                        });
+                                }
+                        }
+                });
+        }
+        function showMain(){
+                clearError('input');
+                toDateList('teacher_main','teacherbar','teacherlist','/system/teacher',data,'id',generalIdList);
+                $("#userTitle").html("教师信息列表");
+        }
+});
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="../system/teacher/addProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="addForm">
+        <p>
+                <label><span style="color: red">*</span>姓名</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="teacher.name" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+                <label>性别</label> <span
+                        class="field"> <s:radio list="#{'男':'男','女':'女' }" name="teacher.sex" value="'男'"></s:radio> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>年龄</label> <span
+                        class="field"> <s:textfield id="age" maxlength="4"
+                                name="teacher.age" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+          <p>
+                <label><span style="color: red">*</span>联系电话</label> 
+                <span class="field"> 
+                        <s:textfield id="name" maxlength="4"
+                                name="teacher.tel" cssStyle="width:90px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p>
+                <label><span style="color: red">*</span>所属专业</label> 
+                <span class="field"> 
+                        <s:select list="specialtyList" id="pl" listKey="id" listValue="name" cssStyle="width:150px;"
+                                name="teacher.specialty.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="add_b">添加</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<table id="teacherlist" class="stdtable stdtablecb" cellspacing="0"
+        cellpadding="0" border="0"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 0px;">
+        <thead>
+                <tr>
+                        <th width="1%"><s:checkbox id="selectAll" name="all" />
+                        </th>
+                        <th width="2%">序号</th>
+                        <th width="8%">教师账号</th>
+                        <th width="8%">姓名</th>
+                        <th width="8%">性别</th>
+                        <th width="8%">年龄</th>
+                        <th width="8%">联系电话</th>
+                         <th width="8%">所属专业</th>
+                </tr>
+        </thead>
+        <tbody>
+                <s:iterator value="DATALIST" status="st">
+                        <tr>
+                                <s:hidden name="id"></s:hidden>
+                                <td style="border-left: 1px solid #ddd;"><s:checkbox name="sel" />
+                                </td>
+                                <td><s:property value="#st.count+(currentPage-1)*10" />
+                                </td>
+                                <td><s:property value="num" />
+                                </td>
+                                <td><s:property value="name" />
+                                </td>
+                               <td><s:property value="sex" />
+                                </td>
+                                <td><s:property value="age" />
+                                </td>
+                                <td><s:property value="tel" />
+                                </td>
+                                <td><s:property value="specialty.name" />
+                                </td>
+                        </tr>
+                </s:iterator>
+        </tbody>
+</table>
+<div class="dataTables_info" id="dyntable2_info" style="margin-left: 20px; margin-right: 20px;">
+        <span class="txt-smaller txt-light"> 当前共有<span class="number"
+                style="color: red;"><s:property value="resultCount" /> </span>条教师信息
+        </span>
+</div>
+<div class="dataTables_paginate paging_full_numbers" style="margin-left: 20px; margin-right: 20px;">
+        <jsp:include page="/template/page.jsp"></jsp:include>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<script type="text/javascript" src="../system/teacher/js/teacher_main.js"
+        charset="UTF-8"></script>
+<div class="contenttitle2" style="margin-left: 20px;">
+        <h3 id="userTitle">教师信息列表</h3>
+</div>
+<div id="teacherbar"
+        style="padding-bottom: 0px; padding-left: 20px; padding-right: 20px; padding-top: 10px;">
+        <div class="tableoptions">
+                &nbsp;&nbsp;&nbsp;&nbsp;查询:&nbsp; <select id="condition1" tabindex="1"
+                        style="width: 130px;">
+                        <option value="0">全部教师信息</option>
+                        <option value="1">按登录账号查询</option>
+                        <option value="2">按姓名查询</option>
+                </select> &nbsp;&nbsp; <select id="condition2" tabindex="2"
+                        style="width: 100px;" disabled="disabled">
+                </select> &nbsp;&nbsp;
+                <input type="text" size="20px" id="input"
+                        class="inputTextCssStyle" style="width: 130px;"> &nbsp;&nbsp;
+                <a class="btn btn2 btn_search" href="#" id="search_but"><span>搜索</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <a
+                        class="btn btn2 btn_yellow btn_inboxi" href="#" id="add_but"><span>添加</span>
+                </a> &nbsp;&nbsp;&nbsp;&nbsp; <a class="btn btn2 btn_black btn_tag"
+                        href="#" id="edit_but"><span>编辑</span> </a>
+        </div>
+</div>
+<div id="teacher_main"></div>
+
+
+
+
+
+
+
+
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+        pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<form action="../system/teacher/modifyProcess.action" method="post"
+        style="margin-left: 20px; margin-right: 20px;" class="stdform stdform2"
+        id="editForm">
+        <p>
+                <label>教师编号</label> <span
+                        class="field"> <s:property value="teacher.num"/> </span>
+        </p>
+       <p>
+                <label><span style="color: red">*</span>姓名</label> <span
+                        class="field"> <s:textfield id="name" maxlength="4"
+                                name="teacher.name" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+        <p>
+                <label>性别</label> <span
+                        class="field"> <s:radio list="#{'男':'男','女':'女' }" name="teacher.sex" value="'男'"></s:radio> </span>
+        </p>
+         <p>
+                <label><span style="color: red">*</span>年龄</label> <span
+                        class="field"> <s:textfield id="age" maxlength="4"
+                                name="teacher.age" cssStyle="width:70px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span> </span>
+        </p>
+          <p>
+                <label><span style="color: red">*</span>联系电话</label> 
+                <span class="field"> 
+                        <s:textfield id="name" maxlength="4"
+                                name="teacher.tel" cssStyle="width:90px;"
+                                cssClass="text-input small-input"></s:textfield> &nbsp;&nbsp; <span
+                        class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p>
+                <label><span style="color: red">*</span>所属专业</label> 
+                <span class="field"> 
+                        <s:select list="specialtyList" id="pl" listKey="id" listValue="name" cssStyle="width:150px;"
+                                name="teacher.specialty.id" cssClass="positionSelect" emptyOption="true"></s:select>
+                         <span class="help-inline" style="color: red;"> </span>
+                </span>
+        </p>
+        <p class="stdformbutton">
+                <button class="stdbtn btn_blue" type="button" id="edit_b">修改</button>
+                <button class="stdbtn btn_black" type="button" id="cancel_b">返回</button>
+        </p>
+        <s:hidden name="teacher.id"></s:hidden>
+         <s:hidden name="teacher.num"></s:hidden>
+          <s:hidden name="teacher.password"></s:hidden>
+</form>
+
+
+
+
+
+
+
+
+
+
