@@ -1,170 +1,122 @@
-Eclipse最初是由IBM公司开发的替代商业软件Visual Age for Java的下一代IDE开发环境，2001年11月贡献给开源社区，现在它由非营利软件供应商联盟Eclipse基金会（Eclipse Foundation）管理。2003年，Eclipse 3.0选择OSGI服务平台规范为运行时架构。2007年6月，稳定版3.3发布；2008年6月发布代号为Ganymede的3.4版；2009年6月发布代号为Galileo的3.5版；2010年6月发布代号为Helios的3.6版；2011年6月发布代号为Indigo的3.7版；2012年6月发布代号为Juno的4.2版；2013年6月发布代号为Kepler的4.3版；2014年6月发布代号为Luna的4.4版；2015年6月项目要发布代号为Mars的4.5版。
+Eclipsez最早先是由IBM软件厂商研发的来替代商业软件VisuaAgeForJava的新的一代软件集成开发的环境，2001年11月份免费给了当时的软件开发开源社区，到现在它由Eclipse Foundation来进行管理。03年，Eclipse3.0使用了OSGI平台的规范作为运行时的架构。
 
-Eclipse的基础是富客户机平台（即RCP）。RCP包括下列组件：
-	  
-核心平台（启动Eclipse，运行插件）
+07年6月份，release版3.3b公开对外发布；08年6月Ganymede的3.4版被公开发布；09年6月Galileo的3.5版公开发布；10年6月Helios的3.6版公开发布；11年6月Indigo的3.7版公开发布；12年6月Juno的4.2版公开发布；13年6月Kepler的4.3版公开发布；14年6月Luna的4.4版公开发布；15年6月项目要发布代号为Mars的4.5版。
 
+Eclipse的根基是RCP平台（即富客户机）。富客户机包括以下的组件：
 	  
-OSGi（标准集束框架）
+核心的运行平台，就是启动Eclipse时所使用的运行插件
 
-	  
-SWT（可移植构件工具包
-	  
-JFace（文件缓冲，文本处理，文本编辑器）
+标准集束框架，即OSGi
 
+可移植的构件工具开发包，即SWT
 	  
-Eclipse工作台（即Workbench，包含视图（views）、编辑器（editors）、视角（perspectives）、和向导（wizards））
+文件缓冲加上文本处理加上文本编辑器，即JFace
 
-	  
-Eclipse采用的技术是IBM公司开发的（SWT），这是一种基于Java的窗口组件，类似Java本身提供的AWT和Swing窗口组件；不过IBM声称SWT比其他Java窗口组件更有效率。Eclipse的用户界面还使用了GUI中间层JFace，从而简化了基于SWT的应用程序的构建。
+Eclipse的Workbench（即工作平台，包括视图，编辑器，视角，向导）
 
-	  
-2.1.2Apache Tomcat
+Eclipse的开发采用的技术是SWT，即可移植的构件工具开发包，这是一种基于Java的源代码的可以创建窗口模块的程序组件，和Java自身提供的AWT,Swing组件基本相同；不过IBM自己公布其SWT比起任何Java win组件更快更效率。Eclipse的使用画面还运用了GUI中间层的JFace组建，这样使得SWT的应用程序的构建就更加的简单了。
 
-	  
-Tomcat是由Apache软件基金会下属的Jakarta项目开发的一个Servlet容器，按照Sun Microsystems提供的技术规范，实现了对Servlet和Java Server Page（JSP）的支持，并提供了作为Web服务器的一些特有功能，如Tomcat管理和控制平台、安全域管理和Tomcat阀等。由于Tomcat本身也内含了一个HTTP服务器，它也可以被视作一个单独的Web服务器。 但是，不能将Tomcat和Apache Web服务器混淆，Apache Web Server是一个用C语言实现的HTTP web server；这两个HTTP web server不是捆绑在一起的。Apache Tomcat包含了一个配置管理工具，也可以通过编辑XML格式的配置文件来进行配置。
+2.1.2阿帕奇Tomcat
 
-	  
-Tomcat提供了一个Jasper编译器用以将JSP编译成对应的Servlet。
+Tomcat是由阿帕奇基金会旗下的Jakarta项目的一个Servlet组建运行的容器，按照Sun 公司提供的技术的规范，实现了对使用Servlet组建和JSP页面构建web应用的支持，并且提供了作为WebServer的一些特有功能，例如Tomcat的服务界面管理和控制界面的管理、Security的域管理以及Tomcat阀等功能。
 
-	  
-Tomcat的Servlet引擎通常与Apache或者其他Web服务器一起工作。除了用于开发过程中的调试以及那些对速度和事务处理只有很小要求的用户，很少会将Tomcat单独作为Web服务器。但随着版本的更新， 正有越来越多的用户将其单独作为Web服务器用以那些对速度和可靠性有较高要求的环境中。
+正因为Tomcat的内部也包含了一个基于HTTP的服务器，这样它也可以被作为一个单独的Web服务器来使用。 但是，不要把Tomcat和Apache Web服务器作为同一个东西，Apache Web Server是一个用C语言实现的HTTP web server；这两个Web server不是一个整体的。阿帕奇 Tomcat包含了一个内置的配置管理的小工具，也可以通过XML来进行开发和运行环境的配置。
 
-	  
+Tomcat使用了Jasper编译器来将JSP代码编译成相应的Servlet。
+
+Tomcat的Servlet的工作引擎需要与Apache或其他Web Server一起运作。现在的商业化的运行环境基本不会使用tomcat直接作为运作的真实环境，一般都是在开发或调试中使用，很少会将Tomcat单独作为Web服务器。随着服务器的换代更新， 很多的用户都使用了那些速度快和可靠性高的服务器来进行真实环境的部署。
+
 2.1.3MySQL
 
-	  
 MySQL原本是一个开放源代码的关系数据库管理系统，原开发者为瑞典的MySQL AB公司，该公司于2008年被升阳微系统（Sun Microsystems）收购。2009年，甲骨文公司（Oracle）收购升阳微系统公司，MySQL成为Oracle旗下产品。
 
-	  
 MySQL在过去由于性能高、成本低、可靠性好，已经成为最流行的开源数据库，因此被广泛地应用在Internet上的中小型网站中。随着MySQL的不断成熟，它也逐渐用于更多大规模网站和应用，比如维基百科、Google和Facebook等网站。非常流行的开源软件组合LAMP中的"M”指的就是MySQL。
 
-	  
-但被甲骨文公司收购后，Oracle大幅调涨MySQL商业版的售价，且甲骨文公司不再支持另一个自由软件项目OpenSolaris的发展，因此导致自由软件社区们对于Oracle是否还会持续支持与其他的大型数据库例如Oracle、IBM DB2、MS SQL等相比，MySQL自有它的不足之处，如规模小、功能有限等，但是这丝毫也没有减少它受欢迎的程度。对于一般的个人用户和中小型企业来说，MySQL提供的功能已经绰绰有余，而且由于MySQL是开放源代码软件，因此可以大大降低总体拥有成本。
+但被甲骨文公司收购后，Oracle大幅调涨MySQL商业版的售价，且甲骨文公司不再支持另一个自由软件项目OpenSolaris的发展，因此导致自由软件社区们对于Oracle是否还会持续支持与其他的大型数据库例如Oracle、IBM DB2、MS SQL等相比，MySQL自有它的不足之处，如规模小、功能有限等，但是这丝毫也没有减少它受欢迎的程度。
 
-	  
-目前Internet上流行的网站构架方式是LAMP（Linux Apache MySQL PHP），即是用Linux作为操作系统，Apache作为Web服務器，MySQL作为数据库，PHP（部分网站也使用Perl或Python）作为服務器端脚本解释器。由于这四个软件都是开放源代码软件，因此使用这种方式可以以较低的成本创建起一个稳定、免费的网站系统。MySQL加PHP的配对在互联网上的应用相比LAMP来说更为常见，并获得了"动态配对”（Dynamic Duo）的雅号，大部分Blog网站基于的WordPress系统主要运用MySQL加PHP的配对。除了LAMP之外， 用于Solaris、Windows和Mac上的网站构架也分别被称为SAMP、WAMP和MAMP。
+对于一般的个人用户和中小型企业来说，MySQL提供的功能已经绰绰有余，而且由于MySQL是开放源代码软件，因此可以大大降低总体拥有成本。
 
-	  
+目前Internet上流行的网站构架方式是LAMP（Linux Apache MySQL PHP），即是用Linux作为操作系统，Apache作为Web服務器，MySQL作为数据库，PHP（部分网站也使用Perl或Python）作为服務器端脚本解释器。由于这四个软件都是开放源代码软件，因此使用这种方式可以以较低的成本创建起一个稳定、免费的网站系统。
+
+MySQL加PHP的配对在互联网上的应用相比LAMP来说更为常见，并获得了"动态配对”（Dynamic Duo）的雅号，大部分Blog网站基于的WordPress系统主要运用MySQL加PHP的配对。除了LAMP之外， 用于Solaris、Windows和Mac上的网站构架也分别被称为SAMP、WAMP和MAMP。
+
 MySQL社区版（MySQL之中唯一的免费版本）有所隐忧，因此原先一些使用MySQL的开源软件逐渐转向其它的数据库。例如维基百科已于2013年正式宣布将从MySQL迁移到MariaDB数据库。
 
-	  
 2.2开发技术介绍
 
-	  
 2.2.1JSP
 
-	  
 JSP（全称Java Server Pages）是由Sun Microsystems公司倡导和许多公司参与共同创建的一种使软件开发者可以响应客户端请求，而动态生成HTML、XML或其他格式文档的Web网页的技术标准。JSP技术是以Java语言作为脚本语言的，JSP网页为整个服务器端的Java库单元提供了一个接口来服务于HTTP的应用程序。
 
-	  
 JSP使Java代码和特定的预定义动作可以嵌入到静态页面中。JSP句法增加了被称为JSP动作的XML标签，它们用来调用内建功能。另外，可以创建JSP标签库，然后像使用标准HTML或XML标签一样使用它们。标签库提供了一种和平台无关的扩展服务器性能的方法。
 
-	  
 JSP被JSP编译器编译成Java Servlets。一个JSP编译器可以把JSP编译成JAVA代码写的servlet然后再由JAVA编译器来编译成机器码，也可以直接编译成二进制码。
 
-	  
 2.2.2JQuery
 
-	  
 jQuery是一套跨浏览器的JavaScript库，简化HTML与JavaScript之间的操作。由约翰·雷西格（John Resig）在2006年1月的BarCamp NYC上发布第一个版本。目前是由Dave Methvin领导的开发团队进行开发。全球前10000个访问最高的网站中，有65%使用了jQuery，是目前最受欢迎的JavaScript库。
 
-	  
-jQuery是开源软件，使用MIT许可证授权。jQuery的语法设计使得许多操作变得容易，如操作文档对象（document）、选择文档对象模型（DOM）元素、创建动画效果、处理事件、以及开发Ajax程序。jQuery也提供了给开发人员在其上创建插件的能力。这使开发人员可以对底层交互与动画、高级效果和高级主题化的组件进行抽象化。模块化的方式使jQuery函数库能够创建功能强大的动态网页以及网络应用程序。
+jQuery是开源软件，使用MIT许可证授权。jQuery的语法设计使得许多操作变得容易，如操作文档对象（document）、选择文档对象模型（DOM）元素、创建动画效果、处理事件、以及开发Ajax程序。jQuery也提供了给开发人员在其上创建插件的能力。
 
-	  
+这使开发人员可以对底层交互与动画、高级效果和高级主题化的组件进行抽象化。模块化的方式使jQuery函数库能够创建功能强大的动态网页以及网络应用程序。
+
 微软和诺基亚已宣布在他们的平台上绑定jQuery。微软最初在Visual Studio中集成了jQuery以便在微软自己的ASP.NET AJAX框架和ASP. NET MVC Framework中使用，而诺基亚则在他的Web运行时组件开发平台中集成了jQuery。MediaWiki自从1.16版本后也开始使用jQuery。
 
-	  
 jQuery 1.3版以后，引入全新的层叠样式表（CSS）选择器引擎Sizzle。同时不再提供Packed版本，因为解压缩的消耗的时间，远大于所节省的下载时间，且不利于除错，且已有Google AJAX Libraries API等公开站台提供jQuery的js的引用服务，故Packed版本原本的优点已荡然无存。
 
-	  
 2.2.3Struts2
 
-	  
 Apache Struts 2是一个用于开发Java EE网络应用程序的开源Web应用框架。它利用并扩展了Java Servlet API，鼓励开发者采用MVC架构。
 
-	  
 缘起于Apache Struts的WebWork框 架，旨在提供相对于Struts框架的增强和改进，同时保留与Struts框架类似的结构。2005年12月， WebWork宣布WebWork 2.2以Apache Struts 2的名义合并至Struts。2007年2月第一个全发布（full release）版本释出。
 
-	  
 Struts1设计的第一目标就是使MVC模 式应用于web程序设计。在过去10年，Struts在更好的web应用方面所做的工作是值得肯定的。在某些方面，Struts社区注意到这一框架的局限 性，所以这个活跃的社区通过对MVC运行模式的重新理解并同时引入一些新的建筑学方面的设计理念后，新的Struts2框架结构更清晰，使用更灵活方便。
 
-	  
-这一新的结构包含应用逻辑的横切面拦截器，基于注释的配置以减少和去除XML形式的配置文件，功能强大的表达式语言，支持可更改、可重用UI组件的 基于微MVC的标签库。Struts2有两方面的技术优势，一是所有的Struts2应用程序都是基于client/server HTTP交换协议，The Java Servlet API揭示了Java Servlet只是Java API的一个很小子集，这样我们可以在业务逻辑部分使用功能强大的Java语言进行程序设计。
+这一新的结构包含应用逻辑的横切面拦截器，基于注释的配置以减少和去除XML形式的配置文件，功能强大的表达式语言，支持可更改、可重用UI组件的 基于微MVC的标签库。
 
-	  
+Struts2有两方面的技术优势，一是所有的Struts2应用程序都是基于client/server HTTP交换协议，The Java Servlet API揭示了Java Servlet只是Java API的一个很小子集，这样我们可以在业务逻辑部分使用功能强大的Java语言进行程序设计。
+
 Struts 2提供了对MVC的一个清晰的实现，这一实现包含了很多参与对所以请求进行处理的关键组件，如：拦截器、OGNL表达式语言、堆栈。
 
-	  
 2.2.4Hibernate
 
-	  
 Hibernate是一种Java语言下的对象关系映射解决方案。它是使用GNU宽通用公共许可证发行的自由、开源的软件。它为面向对象的领域模型到传统的关系型数据库的映射，提供了一个使用方便的框架。它的设计目标是将软件开发人员从大量相同的数据持久层相关编程工作中解放出来。无论是从设计草案还是从一个遗留数据库开始，开发人员都可以采用Hibernate。
 
-	  
 Hibernate不仅负责从Java类到数据库表的映射（还包括从Java数据类型到SQL数据类型的映射），还提供了面向对象的数据查询检索机制，从而极大地缩短的手动处理SQL和JDBC上的开发时间。
 
-	  
 2.2.5Spring特性
-
 
 Spring中包含的关键特性
 
-	  
 强大的基于JavaBeans的采用控制翻转（Inversion of Control，IoC）原则的配置管理，使得应用程序的组建更加快捷简易。
 
-	  
 一个可用于从applet到Java EE等不同运行环境的核心Bean工厂。
 
-
-	  
 数据库事务的一般化抽象层，允许声明式（Declarative）事务管理器，简化事务的划分使之与底层无关。
 
-	  
 内建的针对JTA和单个JDBC数据源的一般化策略，使Spring的事务支持不要求Java EE环境，这与一般的JTA或者EJB CMT相反。
 
-	  
 JDBC 抽象层提供了有针对性的异常等级（不再从SQL异常中提取原始代码），简化了错误处理，大大减少了程序员的编码量。再次利用JDBC时，你无需再写出另一个'终止'（finally）模块。并且面向JDBC的异常与Spring通用数据访问对象（Data Access Object）异常等级相一致。
 
-	  
 以资源容器，DAO实现和事务策略等形式与Hibernate，JDO和iBATIS SQL Maps集成。利用众多的翻转控制方便特性来全面支持，解决了许多典型的Hibernate集成问题。所有这些全部遵从Spring通用事务处理和通用数据访问对象异常等级规范。
 
-	  
 灵活的基于核心Spring功能的MVC网页应用程序框架。开发者通过策略接口将拥有对该框架的高度控制，因而该框架将适应于多种呈现（View）技术，例如JSP、FreeMarker、Velocity、Tiles、iText以及POI。值得注意的是，Spring中间层可以轻易地结合于任何基于MVC框架的网页层，例如Struts、WebWork或Tapestry。
 
-	  
 提供诸如事务管理等服务的面向方面编程框架。
-
 	  
 在设计应用程序Model时，MVC模式（例如Struts）通常难于给出一个简洁明了的框架结构。Spring却具有能够让这部分工作变得简单的能力。程序开发员们可以使用Spring的JDBC抽象层重新设计那些复杂的框架结构。
 
-
-
-
-
 教师绩效考评系统的后台数据库采用MySQL，以保证数据的安全，高效和稳定，前台采用Tocmat和Elipse作为主要的开发工具，它可与MySQL数据库无缝衔接。
 
-87
-	  
 经过系统的初步调查后，为了能够顺利的完成教师绩效考评系统的开发，还须要对本系统进行可行性分析，主要从以下三个方面来对本系统进行可行性分析。
 
-88
-	  
 经济可行性研究是对组织的经济现状和投资能力进行分析，对系统建设运行和维护费用进行估算，对系统建成后可能取得的社会和经济效益进行估计。由于教师绩效考评系统是作为毕业设计由学生自己开发的，在经济上的投入甚微，系统建成之后将为今后实现教师绩效考评提供很大的方便，因此在经济上是可行的。
 
-89
-	  
 技术可行性要考虑现有的技术条件是否能够顺利完成开发工作，软硬件配置是否满足开发的需求等。教师绩效考评系统用的是java开发语言，调试相对简单，当前的计算机硬件配置也完全能满足开发的需求，因此在技术上是绝对可行的。软件方面：由于目前单机模式相对发展成熟，故软件的开发平台成熟可行,它们速度快、容量大、可靠性能高、价格低，完全能满足系统的需求。
 
-90
-	  
 运行可行性是对组织结构的影响，现有人员、机构、设施和环境对系统的适应性及人员培训补充计划的可行性。当前我们学校信息化技术已经相当普及，各类操作人员水平都有相当的高度，所以在运行上是可行性的。
 
-91
-	  
 3.4系统的开发步骤
 
-92
-	  
-一般说来，测评系统的建立与应用可以划分成总体规划、系统开发和系统运行三个阶段，其中系统开发阶段还可进一步分为系统分析、系统设计和系统实施等工作环节。在每个工作阶段均产生完整的技术文档作为下一阶段工作的指导和依据，每一阶段都应对文档进行评审，确信该阶段工作已完成并达到要求后才能进入下一阶段，同时在以后的工作中不能轻易改变前面经过评审的成果。
+一般说来，测评系统的建立与应用可以划分成总体规划、系统开发和系统运行三个阶段，其中系统开发阶段还可进一步分为系统分析、系统设计和系统实施等工作环节。
+在每个工作阶段均产生完整的技术文档作为下一阶段工作的指导和依据，每一阶段都应对文档进行评审，确信该阶段工作已完成并达到要求后才能进入下一阶段，同时在以后的工作中不能轻易改变前面经过评审的成果。
