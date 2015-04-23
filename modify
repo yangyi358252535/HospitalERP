@@ -1,4 +1,4 @@
-Eclipsez最早先是由IBM软件厂商研发的来替代商业软件VisuaAgeForJava的新的一代软件集成开发的环境，2001年11月份免费给了当时的软件开发开源社区，到现在它由Eclipse Foundation来进行管理。03年，Eclipse3.0使用了OSGI平台的规范作为运行时的架构。
+Eclipse最早先是由IBM软件厂商研发的来替代商业软件VisuaAgeForJava的新的一代软件集成开发的环境，2001年11月份免费给了当时的软件开发开源社区，到现在它由Eclipse Foundation来进行管理。03年，Eclipse3.0使用了OSGI平台的规范作为运行时的架构。
 
 07年6月份，release版3.3b公开对外发布；08年6月Ganymede的3.4版被公开发布；09年6月Galileo的3.5版公开发布；10年6月Helios的3.6版公开发布；11年6月Indigo的3.7版公开发布；12年6月Juno的4.2版公开发布；13年6月Kepler的4.3版公开发布；14年6月Luna的4.4版公开发布；15年6月项目要发布代号为Mars的4.5版。
 
@@ -28,41 +28,35 @@ Tomcat的Servlet的工作引擎需要与Apache或其他Web Server一起运作。
 
 2.1.3MySQL
 
-MySQL原本是一个开放源代码的关系数据库管理系统，原开发者为瑞典的MySQL AB公司，该公司于2008年被升阳微系统（Sun Microsystems）收购。2009年，甲骨文公司（Oracle）收购升阳微系统公司，MySQL成为Oracle旗下产品。
+MySQL本来是一个免费的代码公开的关系型的数据库的管理系统，最早先的开发团队为瑞典的MySQL AB公司，这个公司在08年被Sun公司收购。09年，Sun公司又被甲骨文公司（Oracle）收购了，之后MySQL变成了Oracle旗下数据库产品。
 
-MySQL在过去由于性能高、成本低、可靠性好，已经成为最流行的开源数据库，因此被广泛地应用在Internet上的中小型网站中。随着MySQL的不断成熟，它也逐渐用于更多大规模网站和应用，比如维基百科、Google和Facebook等网站。非常流行的开源软件组合LAMP中的"M”指的就是MySQL。
+因为MySQL的效率高，廉价，已经成为当前很流行的公开源码的database，所以被广泛的应用在基于web的中小型应用中。MySQL的不断成熟，它也渐渐地用于更大规模网站以及应用，比如Google，Facebook等网站或应用。当前非常火的开源组合LAMP中的"M”指的就是MySQL Datanbase。
 
-但被甲骨文公司收购后，Oracle大幅调涨MySQL商业版的售价，且甲骨文公司不再支持另一个自由软件项目OpenSolaris的发展，因此导致自由软件社区们对于Oracle是否还会持续支持与其他的大型数据库例如Oracle、IBM DB2、MS SQL等相比，MySQL自有它的不足之处，如规模小、功能有限等，但是这丝毫也没有减少它受欢迎的程度。
+自从被Oracle，Oracle将MySQL商业版的价格大幅度的提高，且Oracle不再支持OpenSolaris的发展，MySQL自有它的缺点以及劣势，像规模小、功能的局限性等，但是这一点儿也没有减少它受欢迎的程度。
 
-对于一般的个人用户和中小型企业来说，MySQL提供的功能已经绰绰有余，而且由于MySQL是开放源代码软件，因此可以大大降低总体拥有成本。
+针对于一般的个人用户或者中小型企业来说，MySQL所提供的所有功能已经足以满足应用，由于MySQL是公开源码的软件，因此可以大大降低应用程序的开发成本。
 
-目前Internet上流行的网站构架方式是LAMP（Linux Apache MySQL PHP），即是用Linux作为操作系统，Apache作为Web服務器，MySQL作为数据库，PHP（部分网站也使用Perl或Python）作为服務器端脚本解释器。由于这四个软件都是开放源代码软件，因此使用这种方式可以以较低的成本创建起一个稳定、免费的网站系统。
+目前网上最流行的web构架方式是LAMP：Linux，Apache，MySQL，PHP，就是用Linux作为操作系统并且Apache Server作为Web服務器，MySQL作为database，PHP作为Server端脚本的解释器。由于这几个软件都是开源的软件，因此使用这种方法可以大大的较低的成本的搭建起一个稳定、免费的网站应用。
 
-MySQL加PHP的配对在互联网上的应用相比LAMP来说更为常见，并获得了"动态配对”（Dynamic Duo）的雅号，大部分Blog网站基于的WordPress系统主要运用MySQL加PHP的配对。除了LAMP之外， 用于Solaris、Windows和Mac上的网站构架也分别被称为SAMP、WAMP和MAMP。
 
-MySQL社区版（MySQL之中唯一的免费版本）有所隐忧，因此原先一些使用MySQL的开源软件逐渐转向其它的数据库。例如维基百科已于2013年正式宣布将从MySQL迁移到MariaDB数据库。
-
-2.2开发技术介绍
+2.2系统开发技术介绍
 
 2.2.1JSP
 
-JSP（全称Java Server Pages）是由Sun Microsystems公司倡导和许多公司参与共同创建的一种使软件开发者可以响应客户端请求，而动态生成HTML、XML或其他格式文档的Web网页的技术标准。JSP技术是以Java语言作为脚本语言的，JSP网页为整个服务器端的Java库单元提供了一个接口来服务于HTTP的应用程序。
+JSP的全称是Java Server Pages，它是由Sun公司发起的和很多公司共同参与开发的一种可以方便的使软件开发人员可以动态的响应客户端发过来的请求，并且动态生成HTML代码，XML代码或其他格式基于Web网页的技术标准的文档。JSP页面是以Java代码作为基本的脚本语言的，JSP页面提供了一个接口来服务于整个服务器端的Java库单元的应用程序。
 
-JSP使Java代码和特定的预定义动作可以嵌入到静态页面中。JSP句法增加了被称为JSP动作的XML标签，它们用来调用内建功能。另外，可以创建JSP标签库，然后像使用标准HTML或XML标签一样使用它们。标签库提供了一种和平台无关的扩展服务器性能的方法。
+JSP页面可以使Java后台代码与特定的预定义动作嵌入到静态html网页中。另外，JSP标签库是可以重新被创建的，然后就可以像使用简单的HTML标签或者XML标签一样使用它们。标签库可以来扩展服务器性能。
 
-JSP被JSP编译器编译成Java Servlets。一个JSP编译器可以把JSP编译成JAVA代码写的servlet然后再由JAVA编译器来编译成机器码，也可以直接编译成二进制码。
+JSP源代码被JSP编译器编译后会生成Java Servlets组建。一个JSP编译器不但可以把JSP页面源代码编译成servlet组建然后再由JAVA虚拟机的编译器来编译生成计算机可识别的机器码，也可以被直接编译成二进制码。
 
 2.2.2JQuery
 
-jQuery是一套跨浏览器的JavaScript库，简化HTML与JavaScript之间的操作。由约翰·雷西格（John Resig）在2006年1月的BarCamp NYC上发布第一个版本。目前是由Dave Methvin领导的开发团队进行开发。全球前10000个访问最高的网站中，有65%使用了jQuery，是目前最受欢迎的JavaScript库。
+jQuery是一套开放源码的并且跨各个浏览器的JS类库，他可以使HTML与JS之间的操作变的简单方便。由约翰·雷西格在06年1月的BarCamp NYC上首次公开发布。目前开发团队的领导是Dave Methvin。全球前15000个访问最高的网站中，有75%使用了jQuery，是目前最受欢迎的JS库。
 
-jQuery是开源软件，使用MIT许可证授权。jQuery的语法设计使得许多操作变得容易，如操作文档对象（document）、选择文档对象模型（DOM）元素、创建动画效果、处理事件、以及开发Ajax程序。jQuery也提供了给开发人员在其上创建插件的能力。
+jQuery是开源的软件框架，并且用MIT许可证授权。jQuery中简单易于理解的语法使得许多的操作变得容易使用，如操作document对象，选择DOM元素、实现动画效果、事件的触发以及处理、开发Ajax的动态的程序。jQuery也提供了给开发者在其上可插拔的功能。
 
-这使开发人员可以对底层交互与动画、高级效果和高级主题化的组件进行抽象化。模块化的方式使jQuery函数库能够创建功能强大的动态网页以及网络应用程序。
+这样可以让开发者对底层交互或者动画、高级效果以及主题化的组件进行抽象化。模块化的方式使jQuery能够创建具有强大功能的网页和web应用程序。
 
-微软和诺基亚已宣布在他们的平台上绑定jQuery。微软最初在Visual Studio中集成了jQuery以便在微软自己的ASP.NET AJAX框架和ASP. NET MVC Framework中使用，而诺基亚则在他的Web运行时组件开发平台中集成了jQuery。MediaWiki自从1.16版本后也开始使用jQuery。
-
-jQuery 1.3版以后，引入全新的层叠样式表（CSS）选择器引擎Sizzle。同时不再提供Packed版本，因为解压缩的消耗的时间，远大于所节省的下载时间，且不利于除错，且已有Google AJAX Libraries API等公开站台提供jQuery的js的引用服务，故Packed版本原本的优点已荡然无存。
 
 2.2.3Struts2
 
