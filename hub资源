@@ -1,4 +1,4 @@
-运动会管理系统 https://github.com/hbcit2010software/hbcitsports
+运动会管理系统(排赛) https://github.com/hbcit2010software/hbcitsports
 超市管理系统 https://github.com/wugang789/supermarket
 教务选课管理系统 https://github.com/beihaifeiwu/course_selection
 教务管理系统 https://github.com/gwq5210/edu_system
@@ -55,13 +55,22 @@ Struts2+Hibernate3实现的图书馆管理系统 https://github.com/LeechanX/Lib
 基于SSH的电信计费管理系统 https://github.com/AndrewXiang/ChinaNet
 基于ssh&acegi的简单b2c电子商务网站  https://github.com/NEILXIANG/5isbook 
 基于SSH架构的培训机构教务系统 https://github.com/SCUSW/EAS 
-
 SSH框架做的个人网站，前台基于twitter的bootstrap风格，后台用的jqueryeasyui，
 https://github.com/zangliguang/LiGuangProject
 基于Struts的学生成绩管理系统 https://github.com/AndrewXiang/student_manage
-
 网吧管理系统  C/S https://github.com/liu8521/NetBar
-
 教师教学能力鉴定系统  https://github.com/duck9293/TechJudge
-
 无线点餐系统 android https://github.com/luwei2012/WirelessOrder
+汽配平台系统 https://github.com/ijie/AutoWeb 
+基于Java Web的在线问卷调查系统 https://github.com/SingleX/SurveySystem
+远东考试系统 https://github.com/chenyunzhan/FE-EMS
+税控打票系统 https://github.com/yuexinsrc/shuikong 
+OA办公室自动化管理系统 https://github.com/Micheal-Bigmac/OA
+客户关系管理系统 https://github.com/Konglic/jb_CRM 
+点名系统 https://github.com/nuxio/Call
+毕设-选题系统 https://github.com/TheHopeStudio/BSQCS
+电信计费系统 https://github.com/CrackerZONDA/NetCTOSS
+校园小商品交易系统 C/S https://github.com/huangmengfei/Database-project
+源辰在线考试系统 https://github.com/zhangyingchengqi/YCWebExamination
+校园小商品交易系统 https://github.com/StevenSongHC/TradeSystem 
+使用了struts2和jQuery ajax框架的家政系统 https://github.com/Cangyang/housekeeping-system
