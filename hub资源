@@ -55,7 +55,6 @@ Struts2+Hibernate3实现的图书馆管理系统 https://github.com/LeechanX/Lib
 基于SSH架构的培训机构教务系统 https://github.com/SCUSW/EAS 
 SSH框架做的个人网站，前台基于twitter的bootstrap风格，后台用的jqueryeasyui，
 https://github.com/zangliguang/LiGuangProject
-基于Struts的学生成绩管理系统 https://github.com/AndrewXiang/student_manage
 网吧管理系统  C/S https://github.com/liu8521/NetBar
 教师教学能力鉴定系统  https://github.com/duck9293/TechJudge
 无线点餐系统 android https://github.com/luwei2012/WirelessOrder
@@ -173,3 +172,7 @@ sony维修  https://github.com/sprinng/newsisAP
 对股票相关数据进行挖掘，提取出有价值的信息 https://github.com/pandboy/StockWebApp
 包房交易平台 https://github.com/Productstrad/Roomtrad
 代收付交易系统 https://github.com/jerryzhang723/aps
+学生成绩管理系统  https://github.com/GourdErwa/mfc-odbc
+学生成绩管理分析系统  https://github.com/leorian/Analysis-of-student-achievement-management-system
+基于Struts的学生成绩管理系统 https://github.com/AndrewXiang/student_manage
+学生成绩管理系统 JSP-SERVERLET https://github.com/zts1993/njut-jsp-student-management
