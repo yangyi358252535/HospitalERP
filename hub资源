@@ -1,17 +1,17 @@
-运动会管理系统(排赛) https://github.com/hbcit2010software/hbcitsports   OK Servlet
-教务选课管理系统 https://github.com/beihaifeiwu/course_selection OK SSH  http://wenku.baidu.com/view/be1b7cd1a58da0116c174945.html
+OK运动会管理系统(排赛) https://github.com/hbcit2010software/hbcitsports    Servlet
+OK教务选课管理系统 https://github.com/beihaifeiwu/course_selection  SSH  http://wenku.baidu.com/view/be1b7cd1a58da0116c174945.html
 山寨教务管理系统 https://github.com/Dustar-Mao/JavaEECourseProject DELETE
 网上书店 https://github.com/guojinchen/bookstore DELETE
-机电设备管理系统 https://github.com/liuruibin/equip  OK SSH  http://wenku.baidu.com/view/4aa6bd15a6c30c2259019eca.html
+OK机电设备管理系统 https://github.com/liuruibin/equip   SSH  http://wenku.baidu.com/view/4aa6bd15a6c30c2259019eca.html
 客户关系管理系统 https://github.com/jerrtop/Java_demo_set HibernateSpringSpringMVC
-会议管理系统 https://github.com/mck-dajiao/Meeting Servlet
-外包管理系统 https://github.com/taozhaoping/outsourcing
-基于Web的世界杯信息管理系统  https://github.com/WC3/WorldCup
-泊车管理系统https://github.com/mohen/carpart
-中勤OA管理系统 https://github.com/Abners/zqoa
-在线教学管理平台https://github.com/qingjun2014/ims
-进销存管理系统 https://github.com/t734070824/JXCSystem
-药物管理系统 https://github.com/moziqi/TanJiaJun
+会议管理系统 https://github.com/mck-dajiao/Meeting Servlet 没有引入
+外包管理系统 https://github.com/taozhaoping/outsourcing SpringStrutsIbatis DELETE
+基于Web的世界杯信息管理系统  https://github.com/WC3/WorldCup SSH DELETE
+泊车管理系统https://github.com/mohen/carpart  DELETE
+中勤OA管理系统 https://github.com/Abners/zqoa SSH 可以参照
+在线教学管理平台https://github.com/qingjun2014/ims  DELETE
+OK进销存管理系统 https://github.com/t734070824/JXCSystem SpringSpringMVCMybatis 
+OK药库管理系统 https://github.com/moziqi/TanJiaJun SSH 
 物流管理系统 https://github.com/yunjianfei/Logistics-Management-System
 驾校学员管理系统 https://github.com/AndrewXiang/DrivingSchool
 住院信息管理系统  https://github.com/zcgsdu/hospitalized
