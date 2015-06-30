@@ -13,10 +13,10 @@ OK药库管理系统 https://github.com/moziqi/TanJiaJun SSH
 泊车管理系统https://github.com/mohen/carpart  DELETE
 在线教学管理平台https://github.com/qingjun2014/ims  DELETE
 --------------物流管理系统 https://github.com/yunjianfei/Logistics-Management-System
-驾校学员管理系统 https://github.com/AndrewXiang/DrivingSchool
-住院信息管理系统  https://github.com/zcgsdu/hospitalized
-人力资源管理系统 https://github.com/dreajay/hrms
-毕业设计管理系统 https://github.com/findix/GPMS
+驾校学员管理系统 https://github.com/AndrewXiang/DrivingSchool SERVLET 太简单
+住院信息管理系统  https://github.com/zcgsdu/hospitalized  Spring Struts2 太简单
+CH_人力资源管理系统 https://github.com/dreajay/hrms   SSH
+CH_毕业设计管理系统 https://github.com/findix/GPMS  Struts2 可以修改成SSH
 江苏省富仁高科公司加油站管理系统 https://github.com/uniqueSkeeter/FunRen
 中国移动账务管理系统-一级工程实践 https://github.com/huoqi/MobileAccount
 广东海洋大学体育馆管理系统 https://github.com/LintBin/GDOU_GYS
