@@ -15,6 +15,8 @@ CH_学生管理系统 servlet https://github.com/zy1620454507/StudentManager
 学生成绩管理系统 C/S https://github.com/JakLiao/StudentManager
 学生信息管理系统 C/S https://github.com/1184893257/student
 网吧管理系统  C/S https://github.com/liu8521/NetBar
+校园小商品交易系统 C/S https://github.com/huangmengfei/Database-project
+电子病历管理 C/S https://github.com/zhou-jered/XASJSWSZXDZBL
 无线点餐系统 android https://github.com/luwei2012/WirelessOrder
 考试系统 https://github.com/tangzhezhi/springmvc
         ==https://github.com/zhangyingchengqi/YC
@@ -36,23 +38,12 @@ https://github.com/zangliguang/LiGuangProject 可以部署
 教师教学能力鉴定系统  https://github.com/duck9293/TechJudge 可以部署
 汽配平台系统 https://github.com/ijie/AutoWeb 可以部署
 OA办公室自动化管理系统 https://github.com/Micheal-Bigmac/OA S2SH 可以部署
-客户关系管理系统 https://github.com/Konglic/jb_CRM 
-点名系统 https://github.com/nuxio/Call
-毕设-选题系统 https://github.com/TheHopeStudio/BSQCS
-电信计费系统 https://github.com/CrackerZONDA/NetCTOSS
-校园小商品交易系统 C/S https://github.com/huangmengfei/Database-project
-源辰在线考试系统 https://github.com/zhangyingchengqi/YCWebExamination
-校园小商品交易系统 https://github.com/StevenSongHC/TradeSystem 
-使用了struts2和jQuery ajax框架的家政系统 https://github.com/Cangyang/housekeeping-system
-科研管理系统 https://github.com/zhangteng-mark/managementsystem
-电子病历管理 C/S https://github.com/zhou-jered/XASJSWSZXDZBL
-             https://github.com/zhou-jered/COIManeageSystem
-车载管理系统 https://github.com/iXueping/obd2
-拍卖网站  https://github.com/guoqiangxie/nbacution 
-Java网络计费系统 https://github.com/Jsong1025/NETCTOSS
-网盘  https://github.com/xdingstudio/cloudfiles
-基于hadoop，利用ssh框架实现hdfs网盘  https://github.com/hedy2009c/hdfs
-校园论坛，基于SSH框架，MySQL，TomCat。https://github.com/yanzhenyu/campus-BBS
+毕设-选题系统 https://github.com/TheHopeStudio/BSQCS SSH 可以部署
+源辰在线考试系统 https://github.com/zhangyingchengqi/YCWebExamination SSH 可以部署
+校园小商品交易系统 https://github.com/StevenSongHC/TradeSystem  SSH 可以部署
+使用了struts2和jQuery ajax框架的家政系统 https://github.com/Cangyang/housekeeping-system Struts2 可以部署
+拍卖网站  https://github.com/guoqiangxie/nbacution SSH 可以部署
+基于hadoop，利用ssh框架实现hdfs网盘  https://github.com/hedy2009c/hdfs SSH 可以部署
 人事管理OA系统 https://github.com/mojooo/perManaGement
                https://github.com/Lovecanon/2015SSHOA
 企业人事管理系统 https://github.com/SmileEye/personnel19
