@@ -44,16 +44,12 @@ OA办公室自动化管理系统 https://github.com/Micheal-Bigmac/OA S2SH 可�
 使用了struts2和jQuery ajax框架的家政系统 https://github.com/Cangyang/housekeeping-system Struts2 可以部署
 拍卖网站  https://github.com/guoqiangxie/nbacution SSH 可以部署
 基于hadoop，利用ssh框架实现hdfs网盘  https://github.com/hedy2009c/hdfs SSH 可以部署
-人事管理OA系统 https://github.com/mojooo/perManaGement
-               https://github.com/Lovecanon/2015SSHOA
-企业人事管理系统 https://github.com/SmileEye/personnel19
-人力资源管理系统，基于struts2、spring、hibernate框架搭建，
-包含模块：人事管理、招聘管理、机构管理、考勤管理、培训管理、个人办公、系统管理。 
-https://github.com/dreajay/hrms
-网上人才招聘系统 https://github.com/Cassidy/EmploymentSystem
-大学生就业能力分析与设计 https://github.com/Stephen-sen/employment
-课程设计-精品课程 https://github.com/MorganMaxg/cources
-基于SNS社交网络的捷径猎头网 https://github.com/yujiayinshi/quickcast
+人事管理OA系统 https://github.com/mojooo/perManaGement  SSH 可以部署
+               https://github.com/Lovecanon/2015SSHOA  SSH 可以部署
+企业人事管理系统 https://github.com/SmileEye/personnel19 SSH 可以部署
+大学生就业能力分析与设计 https://github.com/Stephen-sen/employment SpringMVC  可以部署
+课程设计-精品课程 https://github.com/MorganMaxg/cources SpringMVC 可以部署
+基于SNS社交网络的捷径猎头网 https://github.com/yujiayinshi/quickcast SpringMVC 可以部署
 个人财务管理系统 https://github.com/scaukejian/PFMS
 在线学习 https://github.com/fuqunqin/studyonline
 学校信息管理系统 https://github.com/Derek52722/SchoolInfoMS/tree/master/SchoolInfoMS
