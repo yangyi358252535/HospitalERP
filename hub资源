@@ -4,6 +4,7 @@ OK机电设备管理系统 https://github.com/liuruibin/equip   SSH  http://wenk
 OK 可以参照-中勤OA管理系统 https://github.com/Abners/zqoa SSH 
 OK进销存管理系统 https://github.com/t734070824/JXCSystem SpringSpringMVCMybatis 
 OK药库管理系统 https://github.com/moziqi/TanJiaJun SSH 
+OK考试系统 https://github.com/zhaoml529/Exam
 CH-物流管理系统 https://github.com/yunjianfei/Logistics-Management-System
 客户关系管理系统 https://github.com/jerrtop/Java_demo_set HibernateSpringSpringMVC
 CH_人力资源管理系统 https://github.com/dreajay/hrms   SSH
@@ -21,7 +22,6 @@ CH_学生管理系统 servlet https://github.com/zy1620454507/StudentManager
 考试系统 https://github.com/tangzhezhi/springmvc
         ==https://github.com/zhangyingchengqi/YC
         ==https://github.com/alonecong/kss
-        ==https://github.com/zhaoml529/Exam
         CH_==https://github.com/oaifaye/examOnline ibatis sqlserverdb
 公文管理系统 https://github.com/skyarac/dms  SSH 可以部署
 新闻发布系统——J2EE作业 https://github.com/keywhut/NewsRelease SpringMVC 可以部署
