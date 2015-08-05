@@ -56,6 +56,8 @@ OA办公室自动化管理系统 https://github.com/Micheal-Bigmac/OA S2SH 可�
 神通物流管理系统 https://github.com/twentwo/shentong Struts2Hibernate3  可以部署
 高中学生成绩管理分析系统  https://github.com/leorian/Analysis-of-student-achievement-management-system 可以部署
 毕业生就业管理系统  https://github.com/chenjian994/Exercise_GraduateEmploy SSH 可以部署
+专为企业定制的方便快捷实用的订餐系统  https://github.com/moodpo/Ordering SpringStruts2Ibatis 可以部署
+网络商城 https://github.com/Sogeiliable/socool SSH SpringSecurity 可以部署
 个人财务管理系统 https://github.com/scaukejian/PFMS
 在线学习 https://github.com/fuqunqin/studyonline
 网络商城 https://github.com/Sogeiliable/socool
@@ -101,8 +103,6 @@ JavaEE 小结。一个网上书店的后台管理系统  https://github.com/dcfu
 实现oa的若干核心模块，员工及部门的管理以及权限模块、社区模块 https://github.com/superoracl/itcastOA
 社区化网络在线订餐平台 https://github.com/shen-nong/DingCanBa
 药店管理系统 https://github.com/flykill/drug
-档案馆管理系统 https://github.com/fengtansong/das
-疗养院档案管理 https://github.com/wxj124/FilesManage
 精品教育在线考试  https://github.com/oaifaye/examOnline
 中山大学工资信息管理系统 https://github.com/SYSU-Jmiao/SYSUSalaryManagementSystem
 会议管理项目 https://github.com/narrowei/MeetingRoom
@@ -121,8 +121,6 @@ sony维修  https://github.com/sprinng/newsisAP
                 https://github.com/home45006/order-entity
                 https://github.com/home45006/order-core
 客服订单系统 https://github.com/wantdo/wantnew
-学生公寓管理系统  https://github.com/cfanlife/XSGYGLXT
-专为企业定制的方便快捷实用的订餐系统  https://github.com/moodpo/Ordering
 惠好制药移动医疗系统 https://github.com/ylxfc/huihao_mHealth
 新江厦超市批发管理系统  https://github.com/mingcheong/SMSS_XJX
 对股票相关数据进行挖掘，提取出有价值的信息 https://github.com/pandboy/StockWebApp
