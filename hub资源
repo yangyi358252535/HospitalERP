@@ -61,6 +61,7 @@ OA办公室自动化管理系统 https://github.com/Micheal-Bigmac/OA S2SH 可�
 客服订单系统 https://github.com/wantdo/wantnew SSH 可以部署
 社区服务平台服务器端 https://github.com/bz51/CommunityServer Struts2Hibernate 可以部署
 网络教学系统 https://github.com/soyen/netTeach SSH 可以部署
+online bookstore(在线书店)  https://github.com/AllenWen/javaee-bookstore  SSH 可以部署
 个人财务管理系统 https://github.com/scaukejian/PFMS
 在线学习 https://github.com/fuqunqin/studyonline
 网络商城 https://github.com/Sogeiliable/socool
@@ -95,9 +96,8 @@ https://github.com/WiseWolfs/examOnline
 汽车相关开销管理web系统 https://github.com/yingzhuo/mycar
 汽车管理 https://github.com/rice123/busManagement
 网上书店 https://github.com/fanyongliang/com.school.book
-online bookstore(在线书店)  https://github.com/AllenWen/javaee-bookstore
-https://github.com/xushunseu/bookstore
-https://github.com/skyarac/bookstore
+online bookstore(在线书店) https://github.com/xushunseu/bookstore
+                           https://github.com/skyarac/bookstore
 JavaEE 小结。一个网上书店的后台管理系统  https://github.com/dcfun/bookstore
 免费电子书共享网站 https://github.com/mymonkey110/freebook
 网上花店  https://github.com/lengyuhong/FlowerShop
