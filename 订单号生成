@@ -1,0 +1,17 @@
+首先，订单号有3个性质：1.唯一性  2.不可推测性 3.效率性
+
+唯一性和不可推测性不用说了，效率性是指不能频繁的去数据库查询以避免重复。
+况且满足这些条件的同时订单号还要足够的短。
+我在java下定制的订单号生成方式如下：
+int r1=(int)(Math.random()*(10));//产生2个0-9的随机数
+int r2=(int)(Math.random()*(10));
+long now = System.currentTimeMillis();//一个13位的时间戳
+
+1：订餐 2：二手 3：零食
+
+订单id：：：：String.valueOf(now)+String.valueOf(r1)+（1：订餐 2：二手 3：零食）+String.valueOf(r2)
+
+
+
+
+
